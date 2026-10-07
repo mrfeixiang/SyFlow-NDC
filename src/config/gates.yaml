@@ -1,0 +1,169 @@
+# SyFlow NDC Go/No-Go Gate Definitions
+# Thresholds here are TEMPLATES — actual thresholds must be set per-experiment
+# BEFORE the experiment, based on assay variability, indication, and reference conjugate.
+
+gates:
+  G0:
+    name: "Target and Patient Selection"
+    agent: target_patient
+    required_evidence:
+      - id: defined_patient_subset
+        description: "Biomarker-defined patient population"
+        evidence_type_required: ["literature_evidence", "retrospective_analysis"]
+      - id: membrane_protein_confirmation
+        description: "Target is a confirmed cell-surface membrane protein"
+        evidence_type_required: ["literature_evidence", "syflow_wetlab"]
+      - id: tumor_protein_expression
+        description: "Protein-level tumor expression (IHC, flow, mass spec)"
+        evidence_type_required: ["literature_evidence", "syflow_wetlab"]
+        note: "RNA is supporting evidence only"
+      - id: normal_tissue_assessment
+        description: "Normal tissue protein expression across safety-relevant organs"
+        evidence_type_required: ["literature_evidence"]
+    hold_triggers:
+      - "Tumor protein data missing (RNA only)"
+      - "Normal tissue protein data missing"
+    nogo_triggers:
+      - "Therapeutic window implausible"
+      - "No membrane accessibility"
+
+  G1:
+    name: "VHH Binding and Selectivity"
+    agent: nanobody_epitope
+    required_evidence:
+      - id: live_cell_binding_positive
+        description: "Flow cytometry on antigen-positive cells"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: live_cell_binding_negative
+        description: "Flow cytometry on matched antigen-negative cells"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: counter_binding
+        description: "Cross-reactivity panel (WT, related antigens, species)"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: developability
+        description: "Tm, aggregation, expression yield"
+        evidence_type_required: ["syflow_wetlab"]
+    hold_triggers:
+      - "Recombinant binding only (no live-cell data)"
+      - "Developability assessment incomplete"
+    nogo_triggers:
+      - "Selectivity lost on high-expression WT cells"
+      - "No reproducible binding"
+
+  G2:
+    name: "Internalization and Trafficking"
+    agent: delivery
+    required_evidence:
+      - id: quantified_internalization
+        description: "Percent internalized over time with labelled (non-toxic) binder"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: trafficking_compartment
+        description: "Lysosomal vs endosomal co-localization"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: antigen_density_dependence
+        description: "Uptake vs surface antigen density"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: uptake_time_course
+        description: "Kinetics of internalization"
+        evidence_type_required: ["syflow_wetlab"]
+    hold_triggers:
+      - "Binding established but uptake not measured"
+    nogo_triggers:
+      - "No internalization"
+      - "Wrong trafficking compartment for intended linker"
+
+  G3:
+    name: "Conjugate Identity and Stability"
+    agent: conjugation_payload
+    required_evidence:
+      - id: site_specific_conjugation
+        description: "Analytical confirmation of conjugation site"
+        evidence_type_required: ["syflow_wetlab"]
+        requires_batch_provenance: true
+      - id: measured_dar
+        description: "Drug-to-VHH ratio by intact mass or other method"
+        evidence_type_required: ["syflow_wetlab"]
+        requires_batch_provenance: true
+      - id: intact_mass
+        description: "LC-MS confirming expected product"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: free_payload
+        description: "Unconjugated payload fraction"
+        evidence_type_required: ["syflow_wetlab"]
+        default_threshold: "<5%"
+      - id: aggregation
+        description: "SEC-HPLC monomer percentage"
+        evidence_type_required: ["syflow_wetlab"]
+        default_threshold: "<10% HMW"
+      - id: serum_stability
+        description: "Conjugate integrity in serum over time"
+        evidence_type_required: ["syflow_wetlab"]
+        default_threshold: ">80% intact at 7 days"
+      - id: lot_to_lot
+        description: "Reproducibility across ≥2 independent batches"
+        evidence_type_required: ["syflow_wetlab"]
+    hold_triggers:
+      - "Single batch only"
+      - "Stability data <7 days"
+    nogo_triggers:
+      - "Unstable product"
+      - "Poorly defined product (DAR heterogeneity)"
+      - "High free payload (>5%)"
+
+  G4:
+    name: "Antigen-Dependent Killing"
+    agent: conjugation_payload
+    required_evidence:
+      - id: target_positive_cytotoxicity
+        description: "IC50 on antigen-expressing cells"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: unconjugated_vhh_control
+        description: "Same VHH without payload"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: nonbinding_ndc_control
+        description: "Irrelevant VHH with same payload"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: free_payload_control
+        description: "Payload alone"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: target_negative_control
+        description: "NDC on antigen-negative cells"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: reference_adc
+        description: "Benchmarking against known ADC"
+        evidence_type_required: ["syflow_wetlab", "literature_evidence"]
+    hold_triggers:
+      - "Reference ADC unavailable"
+      - "Single cell line only"
+    nogo_triggers:
+      - "Killing tracks free payload"
+      - "Killing in target-negative cells"
+
+  G5:
+    name: "Exposure and Therapeutic Window"
+    agent: translation_safety
+    required_evidence:
+      - id: tumor_exposure
+        description: "Drug concentration in tumor tissue"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: kidney_exposure
+        description: "Kidney payload accumulation (critical for NDC)"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: free_payload_systemic
+        description: "Unconjugated payload in circulation"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: species_relevance
+        description: "VHH cross-reactivity with preclinical species target"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: pk_pd
+        description: "Exposure-response relationship"
+        evidence_type_required: ["syflow_wetlab"]
+      - id: dose_tolerability
+        description: "MTD and dose-limiting toxicities"
+        evidence_type_required: ["syflow_wetlab"]
+    hold_triggers:
+      - "Exposure window not yet demonstrated"
+    nogo_triggers:
+      - "Persistent exposure-linked liability"
+      - "No therapeutic window"
+      - "Unacceptable kidney toxicity"

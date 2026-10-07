@@ -1,0 +1,47 @@
+==========================================================================================
+TNF-α VHH BINDER DESIGN — FINAL BOLTZ-2 RANKINGS
+Anthropic × Adaptyv 2026 Competition
+==========================================================================================
+
+Rank  Design             Group                  iPTM     pTM      pLDDT    Conf     VHH_fold
+------------------------------------------------------------------------------------------
+1     SyF-TNFa-17        D-Strong pH (3-4 His) 0.7917   0.8815   0.8536   0.8412   0.9602
+2     SyF-TNFa-08        B-Cross-species      0.7159   0.8448   0.8521   0.8249   0.9620
+3     SyF-TNFa-18        D-Strong pH (3-4 His) 0.6241   0.7999   0.8513   0.8059   0.9525
+4     SyF-TNFa-02        A-Strong binder      0.6053   0.7907   0.8858   0.8297   0.9562
+5     SyF-TNFa-07        B-Cross-species      0.5568   0.7648   0.8692   0.8067   0.9399
+6     SyF-TNFa-14        C-Mild pH (1-2 His)  0.5560   0.7683   0.8278   0.7734   0.9651
+7     SyF-TNFa-04        A-Strong binder      0.4667   0.7277   0.8515   0.7745   0.9568
+8     SyF-TNFa-05        A-Strong binder      0.3909   0.6875   0.8261   0.7390   0.8890
+9     SyF-TNFa-12        C-Mild pH (1-2 His)  0.3796   0.6865   0.8655   0.7683   0.9508
+10    SyF-TNFa-03        A-Strong binder      0.3636   0.6826   0.8236   0.7316   0.9219
+11    SyF-TNFa-09        B-Cross-species      0.3610   0.6794   0.8541   0.7555   0.9193
+12    SyF-TNFa-13        C-Mild pH (1-2 His)  0.2986   0.6522   0.8258   0.7203   0.9190
+13    SyF-TNFa-20        D-Strong pH (3-4 His) 0.2697   0.6454   0.8142   0.7053   0.9209
+14    SyF-TNFa-06        B-Cross-species      0.2483   0.6244   0.8625   0.7397   0.9197
+15    SyF-TNFa-15        C-Mild pH (1-2 His)  0.2469   0.6246   0.8164   0.7025   0.8911
+16    SyF-TNFa-10        B-Cross-species      0.1835   0.6005   0.8518   0.7181   0.9290
+17    SyF-TNFa-01        A-Strong binder      0.1667   0.6000   0.8589   0.7204   0.9127
+18    SyF-TNFa-19        D-Strong pH (3-4 His) 0.1624   0.5912   0.8457   0.7090   0.9072
+19    SyF-TNFa-11        C-Mild pH (1-2 His)  0.1539   0.5870   0.8409   0.7035   0.9182
+20    SyF-TNFa-16        D-Strong pH (3-4 His) 0.1337   0.5795   0.8297   0.6905   0.9045
+
+
+GROUP ANALYSIS:
+  Group A: n=5, avg iPTM=0.3986, best=SyF-TNFa-02 (0.6053)
+  Group B: n=5, avg iPTM=0.4131, best=SyF-TNFa-08 (0.7159)
+  Group C: n=5, avg iPTM=0.3270, best=SyF-TNFa-14 (0.5560)
+  Group D: n=5, avg iPTM=0.3963, best=SyF-TNFa-17 (0.7917)
+
+
+SUBMISSION: All 20 designs
+Top 5 candidates:
+  SyF-TNFa-17 (D): iPTM=0.7917
+  SyF-TNFa-08 (B): iPTM=0.7159
+  SyF-TNFa-18 (D): iPTM=0.6241
+  SyF-TNFa-02 (A): iPTM=0.6053
+  SyF-TNFa-07 (B): iPTM=0.5568
+
+Best pH-selective: SyF-TNFa-17 (iPTM=0.7917, Group D, 3 His)
+Best cross-species: SyF-TNFa-08 (iPTM=0.7159, Group B)
+Best pure affinity: SyF-TNFa-02 (iPTM=0.6053, Group A)

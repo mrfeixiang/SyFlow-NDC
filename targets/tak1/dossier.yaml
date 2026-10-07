@@ -1,0 +1,89 @@
+# TAK1 / MAP3K7 Target Dossier — SyFlow NDC Go/No-Go Assessment
+# TAK1 is intracellular. This dossier evaluates NDC strategy:
+# target a tumor-selective surface receptor, deliver TAK1 inhibitor payload.
+
+dossier_id: SYFLOW-TAK1-001
+modality: nanobody_drug_conjugate  # Surface receptor → TAK1 inhibitor payload
+stage: target_identification
+version: "1.0"
+
+target_profile:
+  gene_symbol: MAP3K7  # Official gene symbol; TAK1 is the common name
+  uniprot_id: O43318
+  protein_name: "Mitogen-activated protein kinase kinase kinase 7 (TAK1)"
+  indication: "Inflammatory cancers, AML, pancreatic cancer, KRAS-mutant tumors"
+  patient_subset: "Tumors dependent on NF-κB or TAK1-MAPK signaling for survival"
+  is_surface_protein: false
+  membrane_topology: "Cytoplasmic kinase"
+  known_mutations:
+    - "No recurrent oncogenic mutations — TAK1 is pathway-activated"
+  key_biology: |
+    TAK1 is a serine/threonine kinase at the hub of innate immune signaling.
+    Activated by TLRs, IL-1R, TNF-R, TGF-βR through TAB1/TAB2/TAB3 adaptors.
+    Activates NF-κB (via IKK complex) and MAPK (via MKK4/7→JNK, MKK3/6→p38).
+
+    In cancer: TAK1 promotes survival via NF-κB in inflammation-driven tumors.
+    TAK1 inhibition is synthetically lethal with KRAS mutation in some contexts.
+    Systemic TAK1 inhibition has dose-limiting immunosuppression — NDC delivery
+    to tumor cells could improve therapeutic window.
+
+  # NDC strategy
+  ndc_strategy:
+    rationale: |
+      Systemic TAK1 inhibitors (takinib, 5Z-7-oxozeaenol) have narrow therapeutic
+      windows due to immunosuppression. Targeted delivery via tumor-selective
+      surface receptor-binding VHH could concentrate TAK1 inhibitor in tumor cells
+      while sparing systemic immune function.
+    surface_receptor_candidates:
+      - name: "TROP2"
+        rationale: "Broadly overexpressed in epithelial cancers, proven ADC target (sacituzumab govitecan)"
+        internalization: "Well-characterized, lysosomal trafficking confirmed"
+      - name: "Claudin 18.2"
+        rationale: "Gastric/pancreatic cancer selective, proven ADC target (CLDN18.2 ADCs in trials)"
+        internalization: "Internalizes via clathrin-mediated endocytosis"
+      - name: "Mesothelin (MSLN)"
+        rationale: "Pancreatic, mesothelioma, ovarian; limited normal tissue expression"
+        internalization: "Moderate internalization rate"
+    payload_candidates:
+      - name: "Takinib"
+        class: "TAK1 inhibitor"
+        moa: "Selective TAK1 kinase inhibitor"
+        ic50_tak1: "9.5 nM"
+        concerns: "Short half-life, moderate potency for payload use"
+      - name: "5Z-7-Oxozeaenol"
+        class: "TAK1 inhibitor (covalent)"
+        moa: "Irreversible TAK1 inhibitor, resorcylic acid lactone"
+        concerns: "Covalent mechanism — linker must preserve warhead"
+      - name: "NG25"
+        class: "TAK1/TAK1-TAB1 inhibitor"
+        moa: "Type II kinase inhibitor"
+        concerns: "Multi-kinase activity — selectivity in NDC context"
+
+existing_syflow_data: {}  # No prior SyFlow work on TAK1
+
+gate_expectations:
+  G0:
+    likely_verdict: "hold"
+    rationale: "TAK1 is validated as oncology target, but NDC requires surface receptor selection"
+    key_experiment: "Co-expression analysis: surface receptor + TAK1 pathway dependency in patient tumors"
+  G1:
+    likely_verdict: "conditional"
+    rationale: "VHH targets the surface receptor, not TAK1. Need VHH against TROP2/CLDN18.2/MSLN"
+  G3:
+    key_challenge: "TAK1 inhibitor as payload: potency may be insufficient compared to cytotoxins"
+    rationale: "Typical NDC payloads are sub-nM cytotoxins; TAK1 inhibitors are ~10 nM kinase inhibitors"
+
+competitive_landscape:
+  - name: "Takinib"
+    modality: "Small molecule"
+    stage: "Preclinical"
+    mechanism: "Selective TAK1 inhibitor"
+  - name: "5Z-7-Oxozeaenol"
+    modality: "Small molecule (tool compound)"
+    stage: "Research"
+    mechanism: "Covalent TAK1 inhibitor"
+  - name: "Sacituzumab govitecan (Trodelvy)"
+    modality: "ADC (TROP2-targeted)"
+    stage: "Approved"
+    mechanism: "Anti-TROP2 ADC with SN-38 payload — validates TROP2 as delivery receptor"
+    relevance: "Proof of concept for TROP2-targeted delivery; NDC would use VHH instead of antibody"

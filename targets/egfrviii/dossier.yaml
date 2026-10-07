@@ -1,0 +1,163 @@
+# EGFRvIII Target Dossier — SyFlow NDC Go/No-Go Assessment
+# PROSPECTIVE PILOT: EGFRvIII is the lead NDC target for SyFlow validation.
+# Tumor-specific deletion mutant with no normal tissue expression.
+
+dossier_id: SYFLOW-EGFRvIII-001
+modality: nanobody_drug_conjugate
+stage: binder_discovery
+version: "1.0"
+
+target_profile:
+  gene_symbol: EGFR  # EGFRvIII is a variant of EGFR
+  variant: "EGFRvIII (variant III, Δ2-7)"
+  uniprot_id: P00533  # Wild-type EGFR
+  protein_name: "Epidermal growth factor receptor variant III"
+  indication: "Glioblastoma multiforme (GBM), NSCLC, head and neck SCC"
+  patient_subset: "EGFRvIII-expressing tumors (25-30% of GBM, detected by IHC/PCR)"
+  is_surface_protein: true  # Ideal NDC target
+  membrane_topology: "Type I single-pass transmembrane, large extracellular domain"
+  known_mutations:
+    - "vIII (Δexon 2-7): deletion of aa 6-273, replaced by single Gly — creates tumor-specific neoepitope"
+    - "NOTE: Kinase-domain mutations (T790M, C797S, exon 19 del, L858R) are SEPARATE — they do NOT create extracellular epitopes for VHH targeting"
+  key_biology: |
+    EGFRvIII is the most common EGFR variant in GBM. The deletion of exons 2-7
+    removes most of domain I and all of domain II of the extracellular region,
+    creating a unique junction between the signal peptide and domain III.
+
+    EGFRvIII is constitutively active (ligand-independent dimerization),
+    NOT expressed in any normal tissue, and is present on the cell surface.
+    However, expression is heterogeneous within tumors, and can be lost under
+    therapeutic pressure (resistance mechanism).
+
+    The conformational change from the deletion creates neoepitopes:
+    1. The Gly junction itself (aa position 6)
+    2. Altered domain III/IV conformation
+    3. Exposed domain IV epitopes not accessible in WT EGFR
+
+  antigen_properties:
+    estimated_density: "10,000-100,000 copies/cell in EGFRvIII+ tumors"
+    internalization: "Yes — constitutively internalizes"
+    shedding: "Moderate — EGFRvIII ectodomain found in serum/CSF of GBM patients"
+    heterogeneity: "Significant intra-tumoral heterogeneity in GBM"
+
+vhh:
+  reference_binder:
+    name: "34E5"
+    source: "Immunized camelid, published"
+    epitope: "Domain IV of EGFR extracellular domain"
+    note: |
+      34E5 binds a domain IV epitope, NOT the deletion junction itself.
+      Reports ~5-20-fold preferential binding to recombinant EGFRvIII protein.
+      HOWEVER: retains measurable wild-type EGFR binding.
+      This does NOT establish a therapeutic selectivity window on cells.
+      Must test on cells with physiological WT EGFR expression levels.
+    kd_egfrviii_recombinant: "~1-10 nM (reported)"
+    kd_wt_egfr_recombinant: "~20-100 nM (estimated from fold-change)"
+    selectivity_ratio_recombinant: "5-20x"
+    selectivity_on_cells: "UNKNOWN — critical experiment needed"
+    pdb: null  # No crystal structure deposited
+
+  syflow_candidates: []  # To be populated by SyFlow Nano design pipeline
+
+  required_cell_panel:
+    - name: "U87-EGFRvIII"
+      description: "U87 glioma cells engineered to express EGFRvIII"
+      role: "Primary target-positive line"
+    - name: "A431"
+      description: "Epidermoid carcinoma, very high WT EGFR (~2M copies/cell)"
+      role: "High WT EGFR control — selectivity challenge"
+    - name: "U87 parental"
+      description: "Low/moderate WT EGFR expression"
+      role: "Moderate WT EGFR control"
+    - name: "CHO-K1"
+      description: "EGFR-negative cells"
+      role: "Target-negative control"
+    - name: "Patient-derived GBM spheroids"
+      description: "Primary GBM cultures with confirmed EGFRvIII status"
+      role: "Translational relevance"
+
+linker_payload:
+  planned_chemistry:
+    conjugation: "Sortase A (LPETG → GGG-linker-payload)"
+    site: "C-terminal"
+    click: "Optional SPAAC for modularity"
+  candidate_payloads:
+    - name: "MMAE"
+      class: "Auristatin (microtubule inhibitor)"
+      rationale: "Well-validated ADC payload, potent, bystander effect for heterogeneous tumors"
+      concern: "Ocular toxicity at high doses (see Project Arrow analysis)"
+    - name: "DXd (deruxtecan)"
+      class: "Topoisomerase I inhibitor"
+      rationale: "High DAR tolerability, bystander effect, ILD risk monitoring needed"
+    - name: "MMAF"
+      class: "Auristatin (non-permeable)"
+      rationale: "No bystander effect — useful as negative control for non-specific killing"
+
+existing_syflow_data: {}  # Pilot — no prior data
+
+# Prospective pilot design (from the plan)
+pilot_protocol:
+  step_1_freeze_predictions:
+    description: |
+      Freeze SyFlow binder rankings and gate predictions BEFORE experiments.
+      Record the assays that would overturn each prediction.
+      Keep EGFRvIII selectivity assessment separate from kinase-domain mutation activity.
+  step_2_binding_before_toxin:
+    description: |
+      Measure binding and uptake BEFORE attaching cytotoxic payload.
+      Compare surface binding, internalization, and trafficking across the cell panel.
+      Advance only binders with interpretable delivery profile.
+  step_3_controlled_conjugate_series:
+    description: |
+      One linker-payload (Sortase/SPAAC + selected payload) with:
+      - Each candidate VHH conjugated
+      - Matched nonbinding VHH control conjugate
+      Confirm product and free-payload fraction for EACH batch before comparing potency.
+  step_4_dmta_feedback:
+    description: |
+      Feed results back into SyFlow DMTA cycle.
+      Reviewer records: which prediction survived, which failed.
+      Whether next experiment should change VHH, linker, payload, format, or target population.
+
+gate_expectations:
+  G0:
+    likely_verdict: "go"
+    rationale: "EGFRvIII is tumor-specific, membrane-bound, no normal tissue expression"
+    key_uncertainty: "Intra-tumoral heterogeneity and antigen loss under therapy"
+  G1:
+    likely_verdict: "hold"
+    rationale: "34E5 has recombinant selectivity but live-cell selectivity unconfirmed"
+    key_experiment: "Flow cytometry on full cell panel (EGFRvIII+, high-WT, moderate-WT, negative)"
+  G2:
+    likely_verdict: "hold"
+    rationale: "EGFRvIII internalizes constitutively but VHH-specific uptake kinetics unknown"
+    key_experiment: "Fluorescent VHH internalization time course on EGFRvIII+ vs WT cells"
+  G3:
+    likely_verdict: "pending"
+    rationale: "Sortase conjugation planned but not yet executed"
+  G4:
+    likely_verdict: "pending"
+    rationale: "Requires G3 product before cytotoxicity testing"
+  G5:
+    key_concern: "Nanobody kidney clearance — EGFRvIII NDC will need half-life extension or acceptable renal safety profile"
+
+competitive_landscape:
+  - name: "Rindopepimut (CDX-110)"
+    modality: "Peptide vaccine"
+    stage: "Phase 3 FAILED (ACT IV trial)"
+    mechanism: "EGFRvIII peptide vaccine — failed to improve OS in GBM"
+    lesson: "EGFRvIII heterogeneity and antigen loss limit single-agent approaches"
+  - name: "ABT-414 (depatuxizumab mafodotin)"
+    modality: "ADC (anti-EGFR, binds both WT and vIII)"
+    stage: "Phase 3 FAILED (Intellance-1)"
+    mechanism: "MMAF-conjugated anti-EGFR antibody — WT EGFR binding caused ocular toxicity"
+    lesson: "WT EGFR cross-reactivity → dose-limiting ocular toxicity. Selectivity critical."
+  - name: "AMG 596"
+    modality: "BiTE (EGFRvIII × CD3)"
+    stage: "Phase 1"
+    mechanism: "Bispecific T-cell engager — redirects T cells to EGFRvIII+ cells"
+  - name: "DS-7300a (ifinatamab deruxtecan)"
+    modality: "ADC (anti-B7-H3)"
+    stage: "Phase 3 ongoing, US accelerated approval withdrawn Sept 2026"
+    mechanism: "B7-H3 ADC — different target but relevant NDC/ADC competitive context"
+    lesson: "Regulatory path for accelerated approval requires robust confirmatory data"

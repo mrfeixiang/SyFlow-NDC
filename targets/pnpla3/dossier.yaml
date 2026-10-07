@@ -1,0 +1,65 @@
+# PNPLA3 Target Dossier — SyFlow NDC Go/No-Go Assessment
+# NOTE: PNPLA3 is primarily intracellular. This dossier evaluates whether
+# any NDC-compatible approach exists, or if small molecule remains optimal.
+
+dossier_id: SYFLOW-PNPLA3-001
+modality: small_molecule  # Default — NDC viability to be assessed
+stage: target_identification
+version: "1.0"
+
+target_profile:
+  gene_symbol: PNPLA3
+  uniprot_id: Q9NST1
+  protein_name: "Patatin-like phospholipase domain-containing protein 3"
+  indication: "NASH / MAFLD (Metabolic dysfunction-associated fatty liver disease)"
+  patient_subset: "PNPLA3 I148M homozygous carriers with hepatic steatosis"
+  is_surface_protein: false  # Critical: PNPLA3 is a lipid droplet-associated protein
+  membrane_topology: "Lipid droplet membrane, not plasma membrane"
+  known_mutations:
+    - "I148M (rs738409) — major NASH risk variant, loss of lipase activity"
+    - "E434K — protective variant"
+  key_biology: |
+    PNPLA3 localizes to lipid droplets in hepatocytes and hepatic stellate cells.
+    The I148M variant accumulates on lipid droplets due to resistance to ubiquitin-
+    mediated degradation, promoting steatosis. NOT accessible to extracellular
+    biologics without a delivery strategy.
+
+  # NDC-specific challenges
+  ndc_viability_concerns:
+    - "No extracellular domain — cannot be targeted by VHH directly"
+    - "Liver-specific expression may allow hepatocyte-targeted NDC delivering PNPLA3 degrader"
+    - "Consider ASGPR-targeted delivery for liver-specific payload release"
+    - "GalNAc-siRNA (e.g., ARO-PNPLA3) already in clinical development"
+
+existing_syflow_data:
+  nesso_docking: "../Nesso-1/nesso_pnpla3/"
+  pnpla3_sequence: |
+    MYDAERGWSLSFAGCGFLGFYHVGATRCLSEHAPHLLRDARMLFGASAGALHCVGVLSGIPLEQTLQVLSDLVRKARSRN
+    IGIFHPSFNLSKFLRQGLCKCLPANVHQLISGKIGISLTRVSDGENVLVSDFRSKDEVVDALVCSCFIPFYSGLIPPSFR
+    GVRYVDGGVSDNVPFIDAKTTITVSPFYGEYDICPKVKSTNFLHVDITKLSLRLCTGNLYLLSRAFVPPDLKVLGEICLR
+    GYLDAFRFLEEKGICNRPQPGLKSSSEGMDPEVAMPSWANMSLDSSPESAALAVRLEGDELLDHLRLSILPWDESILDTLS
+    PRLATALSEEMKDKGGYMSKICNLLPIRIMSYVMLPCTLPVESAIAIVQRLVTWLPDMPDDVLWLQWVTSQVFTRVLMCL
+    LPASRSQMPVSSQQASPCTPEQDWPCWTPCSPKGCPAETKAEATPRSILRSSLNFFLGNKVPAGAEGLSTFPSFSLEKSL
+  top_candidates_csv: "/home/syslab/Desktop/De novo drug design/PNPLA3/DMTA_loop/results/pnpla3_top10_candidates.csv"
+  reference_compounds:
+    pfizer: "C[C@@H]1CCN([C@H]2CN(C(=O)Oc3ccc(Cl)cc3)CC(F)(F)C2)S1(=O)=O"
+    nuv: "Cc1cccc(Cc2nc(C)c(C(=O)Nc3cc(O)ccc3Cl)s2)c1"
+
+gate_expectations:
+  G0:
+    likely_verdict: "no_go_for_ndc"
+    rationale: "PNPLA3 is intracellular — no direct NDC targeting possible"
+    alternative: "Small molecule inhibitor/degrader via hepatocyte-targeted delivery"
+  G1:
+    likely_verdict: "not_applicable"
+    rationale: "No cell-surface epitope for VHH binding"
+
+competitive_landscape:
+  - name: "ARO-PNPLA3 (Arrowhead)"
+    modality: "GalNAc-siRNA"
+    stage: "Phase 1"
+    mechanism: "mRNA knockdown via ASGPR-mediated liver delivery"
+  - name: "AZD2693 (AstraZeneca)"
+    modality: "ASO"
+    stage: "Phase 2b"
+    mechanism: "Antisense oligonucleotide targeting PNPLA3 mRNA"

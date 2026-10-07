@@ -1,0 +1,29 @@
+================================================================================
+TNF-alpha VHH Design Summary — Anthropic x Adaptyv 2026
+================================================================================
+ID                 Len   His  W    Y    F    Aromatic% Group    pH        
+--------------------------------------------------------------------------------
+SyF-TNFa-01        117   0    4    7    5    13.7      A-Bind   NONE      
+SyF-TNFa-02        116   0    3    7    4    12.1      A-Bind   NONE      
+SyF-TNFa-03        120   0    4    8    4    13.3      A-Bind   NONE      
+SyF-TNFa-04        115   0    4    6    4    12.2      A-Bind   NONE      
+SyF-TNFa-05        119   1    4    7    5    13.4      A-Bind   WEAK      
+SyF-TNFa-06        117   0    3    6    6    12.8      B-Cross  NONE      
+SyF-TNFa-07        119   0    3    8    4    12.6      B-Cross  NONE      
+SyF-TNFa-08        115   0    4    8    4    13.9      B-Cross  NONE      
+SyF-TNFa-09        116   0    4    5    5    12.1      B-Cross  NONE      
+SyF-TNFa-10        119   0    4    8    4    13.4      B-Cross  NONE      
+SyF-TNFa-11        117   1    3    7    5    12.8      C-pH1    WEAK      
+SyF-TNFa-12        116   1    2    7    4    11.2      C-pH1    WEAK      
+SyF-TNFa-13        120   2    3    8    4    12.5      C-pH1    MILD      
+SyF-TNFa-14        115   2    2    6    4    10.4      C-pH1    MILD      
+SyF-TNFa-15        119   2    3    7    5    12.6      C-pH1    MILD      
+SyF-TNFa-16        117   3    2    5    6    11.1      D-pH3+   MOD       
+SyF-TNFa-17        119   3    2    7    4    10.9      D-pH3+   MOD       
+SyF-TNFa-18        115   4    2    5    5    10.4      D-pH3+   STRONG    
+SyF-TNFa-19        119   5    2    5    5    10.1      D-pH3+   STRONG    
+SyF-TNFa-20        116   4    2    6    4    10.3      D-pH3+   STRONG    
+
+Candidates ready for submission: 20
+Deadline: 2026-10-11 23:59 AoE
+Competition: https://proteinbase.com/competitions/anthropic-adaptyv-2026/challenges/tnf-alpha

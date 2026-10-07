@@ -1,0 +1,342 @@
+# NK2R VHH Agonist Binder Dossier — PDC2026 AI Binder Campaign
+# Competition: Protein Design Competition 2026 (Tsinghua FBS)
+# Goal: Design agonist VHH nanobodies activating NK2R for metabolic disease
+
+dossier_id: SYFLOW-NK2R-PDC2026-001
+modality: vhh_agonist_nanobody
+stage: computational_design
+version: "1.0"
+created: "2026-09-29"
+competition:
+  name: "Protein Design Competition 2026 (PDC2026)"
+  url: "https://www.fbs.frcbs.tsinghua.edu.cn/competition/PDC2026"
+  related_peptide_comp: "https://www.fbs.frcbs.tsinghua.edu.cn/competition/2025Peptide"
+  registration_deadline: "2026-11-11"
+  submission_format: "3 independent VHH sequences per participant"
+  sequence_length: "100-150 amino acids"
+  evaluation:
+    stage1_computational:
+      method: "AlphaFold3 structure prediction (VHH + NK2R + activated Galpha)"
+      iptm_cutoff: 0.6  # Minimum to advance
+      iptm_target: 0.8  # Our design goal
+      ranking_metric: "deltaSASA (change in solvent-accessible surface area)"
+      top_n_synthesized: 300
+    stage2_experimental:
+      method: "Synthesis and NK2R agonist activity assay"
+      primary_metric: "EC50 (NK2R activation)"
+
+target_profile:
+  gene_symbol: TACR2
+  common_name: NK2R
+  uniprot_id: P21452
+  protein_name: "Neurokinin 2 receptor (Substance-K receptor)"
+  organism: "Homo sapiens"
+  protein_class: "Class A GPCR, Tachykinin receptor family"
+  indication: "Obesity, Type 2 Diabetes, Metabolic Disease (NASH/MAFLD)"
+  mechanism_of_interest: "Agonism — dual action: central appetite suppression + peripheral energy expenditure"
+
+  key_biology: |
+    NK2R is a class A GPCR activated by the endogenous tachykinin neuropeptide
+    Neurokinin A (NKA, sequence: HKTDSFVGLM). NK2R activation drives:
+    1. Central appetite suppression (bypasses canonical leptin signaling)
+    2. Peripheral energy expenditure increase
+    3. Acute insulin sensitization
+
+    Sass et al. (Nature 2024, DOI:10.1038/s41586-024-08207-0) demonstrated:
+    - Genetic links between NK2R variants and obesity/glucose control
+    - Long-acting NK2R agonists cause weight loss in mice and diabetic macaques
+    - Reduction of blood glucose, triglycerides, cholesterol in obese primates
+
+    Key challenge: NKA is short-lived and lacks receptor specificity (cross-reacts
+    with NK1R and NK3R). A VHH agonist offers selectivity + long half-life.
+
+  structural_information:
+    pdb_structures:
+      - id: "7XWO"
+        ligand: "Neurokinin A (NKA)"
+        g_protein: "Gq (G324 chimera)"
+        resolution: "2.7 A"
+        note: "First NK2R cryo-EM structure; NKA-bound active state (Sun et al. 2022, Cell Discovery)"
+      - id: "9W1J"
+        ligand: "NKA"
+        g_protein: "miniGs/q70"
+        note: "NKA-bound, different G protein construct"
+      - id: "9W2G"
+        ligand: "EB1001 (engineered peptide)"
+        g_protein: "miniGs/q70"
+      - id: "9W2H"
+        ligand: "EB1002 (engineered peptide)"
+        g_protein: "miniGs/q70"
+      - id: "9W2I"
+        ligand: "Peptide 336 (designed selective)"
+        g_protein: "miniGs/q70"
+      - id: "9W2J"
+        ligand: "Peptide 383 (designed selective)"
+        g_protein: "miniGs/q70"
+    alphafold_model: "AF-P21452 (UniProt AlphaFold DB)"
+    key_residues:
+      toggle_switch: "CWxP motif in TM6: NK2R-Y266 (adjacent to W in CWxP)"
+      orthosteric_pocket: "C-terminal -GLM of NKA engages deep in TM bundle"
+      ecl2_disulfide: "C106(TM3)-C181(ECL2) conserved class A GPCR disulfide"
+      ecl2_specificity: "K180 forms salt bridge with NKA-D4 — critical selectivity determinant"
+      nterm_contact: "A25 mainchain nitrogen H-bonds NKA-D4"
+      activation_hub: "S297-equivalent in NK2R (homologous to NK1R-S297)"
+      selectivity_determinants: "NK2R-Y266 vs NK1R-F264 — distinct microenvironments"
+      potential_nterm_disulfide: "C4(N-term)-C281(ECL3) — may constrain N-terminus near ECL3"
+
+  extracellular_topology:
+    n_terminus: "Residues 1-~26, partially disordered in cryo-EM, potential C4-C281 disulfide to ECL3"
+    ecl1: "~Residues 100-108, short loop between TM2-TM3"
+    ecl2: "~Residues 171-196, largest ECL, beta-hairpin motif, K180 salt bridge, C106-C181 disulfide"
+    ecl3: "~Residues 276-286, contains C281, moderate accessibility"
+
+  chembl_data:
+    target_id: "CHEMBL2327"
+    bioactivity_count: 861
+    high_potency_count: "379 with Ki < 10 nM"
+    note: "All clinical compounds are antagonists; no approved NK2R drugs"
+    key_antagonists:
+      - name: "Saredutant (SR-48968)"
+        ki_nm: 0.5
+        phase: "Phase 3 (failed in depression)"
+      - name: "Ibodutant (MEN-15596)"
+        phase: "Phase 3 (failed in IBS-D)"
+
+  existing_biologics: "NONE — no published nanobodies or antibodies targeting NK2R. First-in-class opportunity."
+
+  reference_ligands:
+    nka:
+      name: "Neurokinin A"
+      sequence: "HKTDSFVGLM"
+      type: "endogenous agonist"
+      selectivity: "Preferential for NK2R but cross-reacts with NK1R/NK3R"
+      binding_mode: "C-terminal hexapeptide (SFVGLM) anchors in orthosteric pocket; N-terminal is flexible"
+    substance_p:
+      name: "Substance P"
+      sequence: "RPKPQQFFGLM"
+      type: "NK1R-selective endogenous agonist, weak NK2R activity"
+      note: "Shares C-terminal -GLM motif (tachykinin consensus)"
+
+vhh_design:
+  framework:
+    scaffold: "cAbBCII10-derived synthetic VHH scaffold"
+    pdb_reference: "3DWT"
+    rationale: |
+      cAbBCII10 is the gold-standard synthetic VHH framework with:
+      - High thermostability (Tm > 70C)
+      - Excellent E. coli expression
+      - Well-characterized CDR grafting tolerance
+      - Validated in multiple successful nanobody design campaigns
+    framework_regions:
+      FR1: "EVQLVESGGGLVQAGGSLRLSCAAS"  # 25 aa
+      FR2: "WFRQAPGKEREGVS"              # 14 aa
+      FR3: "RFTISRDNAKNTVYLQMNSLKPEDTAVYYC"  # 30 aa
+      FR4: "WGQGTQVTVSS"                 # 11 aa
+    hallmark_residues:
+      pos37: "F (Phe) — VHH hallmark, replaces VH Val"
+      pos44: "E (Glu) — VHH hallmark, salt bridge with pos45"
+      pos45: "R (Arg) — VHH hallmark"
+
+  design_strategy: |
+    AGONIST VHH DESIGN FOR CLASS A GPCR:
+
+    Key challenge: Unlike class B GPCRs with large ECDs, class A GPCRs like NK2R
+    have minimal extracellular surface. The VHH must engage the limited extracellular
+    loops (ECL1, ECL2, ECL3) and N-terminus while inducing the conformational change
+    needed for G-protein coupling (outward TM6 movement).
+
+    Strategy derived from:
+    1. Sachdev & Cheloha (2026) Br J Pharmacol — bitopic GPCR VHH conjugates
+    2. Muratspahi et al. (2025) — de novo nanobodies for GPCRs via RFdiffusion
+    3. Nabla Bio — agonistic VHH against CXCR7 (proof of concept)
+    4. Petersen et al. (2024) JBC — NK1R/NK2R activation mechanism details
+
+    DESIGN PRINCIPLES FOR iPTM > 0.8:
+    - Maximize structured CDR3 (helical or beta-hairpin elements) — AF3 rewards
+      ordered interfaces over floppy loops
+    - Include aromatic residues (W, Y, F) at interface — high confidence contacts
+    - Balance polar (H-bond) and hydrophobic contacts — improves PAE
+    - CDR3 length 16-21 residues — sufficient for GPCR extracellular engagement
+
+    DESIGN PRINCIPLES FOR HIGH deltaSASA:
+    - Maximize CDR3 length → larger buried interface
+    - Broad contact footprint across multiple ECLs
+    - Flat/convex binding surface topology
+    - Include both hydrophobic core and polar rim contacts
+
+    AGONIST MECHANISM PRINCIPLES:
+    - CDR3 must reach into or near the orthosteric pocket to mimic NKA engagement
+    - Alternatively, lock ECL2/ECL3 to stabilize TM6 outward active conformation
+    - Include Met/Leu residues in CDR3 tip to mimic NKA C-terminal -GLM
+
+  candidates:
+    - id: SyF-NK2R-A1
+      name: "Orthosteric-Pocket Agonist"
+      cdr1: GFTFSSYAMS
+      cdr2: AINWSGGSTY
+      cdr3: AKEPYWDSGTMFYQKIDV
+      total_length: 118
+      strategy: |
+        Long CDR3 (18 residues) with Met-containing tip to engage deep orthosteric
+        pocket, mimicking NKA C-terminal -GLM engagement with toggle switch.
+        CDR1 aromatic (Y) anchors on ECL2. CDR2 W provides CH-pi interaction with
+        ECL1. Expected to directly activate via orthosteric mechanism.
+      predicted_epitope: "ECL2 + orthosteric pocket entrance"
+      agonist_rationale: "Direct orthosteric engagement; Met in CDR3 mimics NKA-Met(10)"
+
+    - id: SyF-NK2R-A2
+      name: "ECL2-ECL3 Allosteric Bridge"
+      cdr1: GRTFSNYAMG
+      cdr2: TISSGGSITY
+      cdr3: AADRGYWDELDSFYEV
+      total_length: 116
+      strategy: |
+        Medium CDR3 (16 residues) bridging ECL2 and ECL3 with aromatic wedge
+        residues (Y, W) that lock TM5-TM6 in the outward active conformation.
+        Acidic residues (D, E) create complementary charge interactions with
+        basic residues on ECL3. High shape complementarity for strong iPTM.
+      predicted_epitope: "ECL2-ECL3 bridge region"
+      agonist_rationale: "Allosteric activation; wedges TM6 outward via ECL2-ECL3 constraint"
+
+    - id: SyF-NK2R-A3
+      name: "N-terminus Clamp + ECL2"
+      cdr1: GFTLDYYAIG
+      cdr2: INWSGGSTDY
+      cdr3: AAKPFWHRSTDGTYYYDSEV
+      total_length: 120
+      strategy: |
+        Extended CDR3 (20 residues) creating a clamp between receptor N-terminus
+        and ECL2. Triple tyrosine (YYY) motif forms extensive H-bond network.
+        W and F provide hydrophobic core contacts. R and D create salt bridges.
+        Large contact footprint maximizes deltaSASA for high ranking.
+      predicted_epitope: "N-terminus + ECL2 clamp"
+      agonist_rationale: "N-terminal engagement may trigger conformational cascade; ECL2 constraint activates"
+
+    - id: SyF-NK2R-A4
+      name: "Toggle-Switch Activator"
+      cdr1: GSIFSINAMI
+      cdr2: AITWSGESTY
+      cdr3: AKDFYWQSMTGRSFDV
+      total_length: 116
+      strategy: |
+        CDR3 (16 residues) designed with aromatic F/Y/W positioned to engage
+        NK2R toggle switch (CWxP) via ECL2 access channel. Contains Met (M)
+        and Thr (T) to mimic NKA C-terminal engagement of the orthosteric
+        pocket floor. Compact design optimized for high iPTM confidence.
+      predicted_epitope: "ECL2 → orthosteric access channel"
+      agonist_rationale: "Direct toggle switch activation via CDR3 aromatic engagement of CWxP/Y266"
+
+    - id: SyF-NK2R-A5
+      name: "Max-SASA Broad Epitope"
+      cdr1: GFTFSRHAMS
+      cdr2: VISWSGESTH
+      cdr3: ASQPGYRWDDSSTEYYYDMDV
+      total_length: 121
+      strategy: |
+        Longest CDR3 (21 residues) with extended flat binding surface engaging
+        ECL1, ECL2, and ECL3 simultaneously. Dense charged/polar rim
+        (D, E, R, S, T) with aromatic core (Y, W). Designed specifically to
+        maximize total buried surface area (deltaSASA). The broad footprint
+        constrains multiple ECLs, potentially forcing active conformation.
+      predicted_epitope: "ECL1 + ECL2 + ECL3 (pan-extracellular)"
+      agonist_rationale: "Simultaneous ECL constraint may force TM rearrangement; maximum interface"
+
+evidence_and_citations:
+  key_references:
+    - citation: "Sass et al. (2024) Nature 635:987-1000"
+      doi: "10.1038/s41586-024-08207-0"
+      relevance: "NK2R as metabolic disease target; agonist mechanism of action"
+      evidence_type: literature_evidence
+
+    - citation: "Petersen et al. (2024) J Biol Chem 300:107948"
+      doi: "10.1016/j.jbc.2024.107948"
+      relevance: "NK1R/NK2R activation mechanism; toggle switch; Y266 selectivity"
+      evidence_type: literature_evidence
+
+    - citation: "Sachdev & Cheloha (2026) Br J Pharmacol 183:4512-4531"
+      doi: "10.1111/bph.70519"
+      relevance: "Multivalent VHH conjugates for GPCR modulation; NK1R nanobody epitope tags"
+      evidence_type: literature_evidence
+
+    - citation: "El Salamouni et al. (2024) FEBS Open Bio 15:236-253"
+      doi: "10.1002/2211-5463.13850"
+      relevance: "Computational nanobody design; CDR grafting; framework selection (cAbBCII10)"
+      evidence_type: literature_evidence
+
+    - citation: "Medved et al. (2026) Protein Science 35(9)"
+      doi: "10.1002/pro.70773"
+      relevance: "AVIDbase nanobody-antigen dataset; VHH design with RFdiffusion/BoltzGen"
+      evidence_type: literature_evidence
+
+    - citation: "Cia et al. (2026) FEBS Letters"
+      doi: "10.1002/1873-3468.70429"
+      relevance: "Antibody design pipeline framework; iPTM/pDockQ2/ipSAE ranking; physics-AI hybrid"
+      evidence_type: literature_evidence
+
+    - citation: "Riccabona et al. (2026) FEBS Letters"
+      doi: "10.1002/1873-3468.70459"
+      relevance: "Protein design landscape; BindCraft/BoltzGen/RFdiffusion pipeline overview"
+      evidence_type: literature_evidence
+
+    - citation: "Hutchings et al. (2026) Pharmacol Res Perspect 14(1)"
+      doi: "10.1002/prp2.70216"
+      relevance: "Anti-GPCR antibody discovery; RFdiffusion-antibody for GPCR targets"
+      evidence_type: literature_evidence
+
+next_steps:
+  - step: "Submit top 3 sequences to PDC2026 before 2026-11-11"
+    priority: critical
+    recommended_submission: ["SyF-NK2R-A1", "SyF-NK2R-A3", "SyF-NK2R-A5"]
+    rationale: |
+      A1 = highest agonist probability (orthosteric mechanism, Met mimic)
+      A3 = best iPTM potential (extensive H-bond network, structured CDR3)
+      A5 = best deltaSASA potential (largest interface, broad epitope)
+
+  - step: "Run AlphaFold3 prediction (NK2R + VHH + Galpha) for all 5 designs"
+    priority: high
+    tool: "AlphaFold3 server or local Boltz-2"
+    metrics_to_extract: ["iPTM", "chain_ipTM", "pAE", "pLDDT", "deltaSASA"]
+
+  - step: "Iterate CDR sequences based on AF3 feedback"
+    priority: high
+    method: |
+      1. Run AF3 on all 5 candidates
+      2. Identify which designs achieve iPTM > 0.8
+      3. For designs below threshold: modify CDR3 residues at low-pLDDT positions
+      4. Maximize deltaSASA by extending interface contacts
+      5. Re-predict and iterate until 3 candidates meet criteria
+
+  - step: "Cross-validate with Boltz-2 and BindCraft"
+    priority: medium
+    rationale: "Competition uses AF3; cross-validation improves confidence"
+
+  - step: "Run RFAntibody diffusion-based VHH design as orthogonal approach"
+    priority: medium
+    tool: "../rfantibody/ — RFdiffusion + ProteinMPNN + RoseTTAFold2"
+    input_pdb: "7XWO (NK2R active state with NKA and Gq)"
+    rationale: "Generate additional candidates via backbone diffusion against actual cryo-EM structure"
+
+  - step: "Run NanoFlow pipeline for scoring and QC"
+    priority: medium
+    tool: "../nanobody-pipeline/pipeline.py"
+    rationale: "4-block pipeline (Design→CoFold→Score→QC) for systematic VHH evaluation"
+
+available_tools:
+  rfantibody:
+    path: "../rfantibody/"
+    description: "RFdiffusion + ProteinMPNN + RF2 for de novo VHH design"
+  nanoflow:
+    path: "../nanobody-pipeline/"
+    description: "4-block VHH pipeline (Design→CoFold→Score→QC)"
+  ligandmpnn:
+    path: "../ligandMNPP/"
+    description: "Ligand-aware sequence design (reference: rhoa_pipeline)"
+  boltzgen:
+    path: "../BoltzGen/"
+    description: "Generative protein design with filtering and ranking"
+  boltz2:
+    path: "../boltz2/"
+    description: "Structure prediction and batch affinity scoring"
+  abmpnn:
+    path: "../AbMPNN/"
+    description: "Antibody-trained ProteinMPNN for sequence design"

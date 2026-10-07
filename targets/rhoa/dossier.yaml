@@ -1,0 +1,77 @@
+# RhoA Target Dossier — SyFlow NDC Go/No-Go Assessment
+# NOTE: RhoA is intracellular. This dossier evaluates indirect NDC strategies
+# targeting upstream surface receptors that activate RhoA signaling.
+
+dossier_id: SYFLOW-RHOA-001
+modality: nanobody_drug_conjugate  # Indirect: surface receptor → RhoA pathway payload
+stage: target_identification
+version: "1.0"
+
+target_profile:
+  gene_symbol: RHOA
+  uniprot_id: P61586
+  protein_name: "Transforming protein RhoA"
+  indication: "Solid tumors with RhoA pathway activation (gastric diffuse, T-cell lymphoma)"
+  patient_subset: "Tumors with activating RhoA mutations (Y42C, G17V) or pathway hyperactivation"
+  is_surface_protein: false  # RhoA is cytoplasmic
+  membrane_topology: "Cytoplasmic, membrane-associated via C-terminal prenylation"
+  known_mutations:
+    - "Y42C — recurrent in diffuse gastric cancer, gain of function"
+    - "G17V — recurrent in AITL/PTCL, constitutive GEF-independent activation"
+    - "G14V — lab-derived constitutively active mutant"
+    - "Q63L — blocks GTPase activity (used in structural studies)"
+  key_biology: |
+    RhoA is a Rho family GTPase controlling cytoskeleton, cell migration, and proliferation.
+    Activated by extracellular signals through GPCRs, integrins, and receptor tyrosine kinases.
+    Key effectors: ROCK1/2, mDia, PKN. Druggable with ROCK inhibitors (indirect).
+
+  # NDC strategy: target a surface receptor, deliver RhoA pathway inhibitor as payload
+  ndc_indirect_strategy:
+    surface_receptor_candidates:
+      - name: "EPHA2"
+        rationale: "Overexpressed in gastric cancer, internalizes efficiently, activates RhoA"
+      - name: "CXCR4"
+        rationale: "Overexpressed in AITL, activates RhoA via Gα13, internalization well-characterized"
+      - name: "Integrin αvβ3"
+        rationale: "Tumor vasculature and invasive tumor cells, activates RhoA signaling"
+    payload_candidates:
+      - name: "ROCK inhibitor (payload)"
+        class: "Kinase inhibitor"
+        rationale: "ROCK1/2 are direct RhoA effectors; local inhibition in tumor cells"
+      - name: "RhoA-GTP binding inhibitor"
+        class: "PPI inhibitor"
+        rationale: "Block RhoA-effector interface; low systemic tolerability may benefit from targeted delivery"
+
+existing_syflow_data:
+  ligandmpnn_designs: "../ligandMNPP/rhoa_pipeline/"
+  structures:
+    - pdb: "9VNG"
+      description: "RhoA Y42C with covalent inhibitor A1D9L + GDP + Mg2+"
+      resolution: "1.43 Å"
+    - pdb: "1KMQ"
+      description: "RhoA Q63L constitutively active, GTP analog bound"
+      resolution: "1.55 Å"
+  binder_design_results: "../ligandMNPP/rhoa_pipeline/results/"
+
+gate_expectations:
+  G0:
+    likely_verdict: "hold"
+    rationale: "RhoA itself is not a surface target; must validate indirect targeting via surface receptor"
+    key_experiment: "Confirm surface receptor co-expression with RhoA pathway activation in patient tumors"
+  G1:
+    likely_verdict: "conditional"
+    rationale: "VHH must target the surface receptor (e.g., EphA2), not RhoA itself"
+
+competitive_landscape:
+  - name: "Fasudil/Ripasudil (ROCK inhibitors)"
+    modality: "Small molecule"
+    stage: "Approved (glaucoma), investigational (oncology)"
+    mechanism: "Systemic ROCK1/2 inhibition"
+  - name: "AT13148 (Astex)"
+    modality: "Small molecule"
+    stage: "Phase 1 (terminated)"
+    mechanism: "Multi-AGC kinase inhibitor including ROCK"
+  - name: "RKI-1447"
+    modality: "Small molecule"
+    stage: "Preclinical"
+    mechanism: "Selective ROCK inhibitor with anti-invasion activity"

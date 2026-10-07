@@ -1,0 +1,242 @@
+# TNF-α VHH Binder Dossier — Anthropic × Adaptyv 2026 Competition
+# Challenge: Design conditional TNF-α binders
+# Deadline: 2026-10-11 23:59 AoE
+
+dossier_id: SYFLOW-TNFa-ADAPTYV2026-001
+modality: vhh_binder_nanobody
+stage: computational_design
+version: "1.0"
+created: "2026-10-06"
+
+competition:
+  name: "Anthropic × Adaptyv Protein Design Competition 2026"
+  url: "https://proteinbase.com/competitions/anthropic-adaptyv-2026/challenges/tnf-alpha"
+  challenge: "TNF-α Challenge 02"
+  deadline: "2026-10-11 23:59 AoE"
+  submission_limit: 20  # Track 2/3
+  format: "Single chain protein, nanobody, scFv, or Fab"
+  length: "10-250 amino acids"
+  design_type: "De novo designs only"
+  sponsor: "Anthropic + Adaptyv Bio ($1M+ API credits + $1M+ wet-lab testing)"
+  validation: "Automated wet-lab testing at Adaptyv (>5000 designs total across competition)"
+
+  three_objectives:
+    1_binding: "Bind human TNF-α (soluble trimer, P01375-1 res 77-233)"
+    2_cross_species: "Same sequence binds mouse TNF-α (P06804, 79% identity) at pH 7.4"
+    3_pH_selective: "Binds at pH 7.4 but NO detectable binding at pH 6.0"
+
+  ranking_priority:
+    - "1st: pH selectivity achievement"
+    - "2nd: Cross-species recognition"
+    - "3rd: Affinity strength against human target"
+
+target_profile:
+  gene_symbol: TNF
+  protein_name: "Tumor Necrosis Factor Alpha"
+  uniprot_human: "P01375-1 (residues 77-233, mature form)"
+  uniprot_mouse: "P06804"
+  sequence_identity: "79% human-mouse"
+  quaternary_structure: "Homotrimer (non-covalent)"
+  molecular_weight: "45-62 kDa (trimeric)"
+
+  pdb_structures:
+    - id: "1TNF"
+      species: "Human"
+      resolution: "2.6 A"
+      description: "Crystal structure of human TNF-α trimer"
+    - id: "2TNF"
+      species: "Mouse"
+      description: "Crystal structure of mouse TNF-α trimer"
+    - id: "5M2I"
+      resolution: "2.15 A"
+      description: "TNF-α + VHH#1 (Ablynx) — CDR3-dominated, central groove, 1246 A2 buried"
+    - id: "5M2J"
+      resolution: "1.90 A"
+      description: "TNF-α + VHH#2 (Ablynx) — CDR1/CDR2-dominated, central groove, 745 A2 buried"
+    - id: "5M2M"
+      resolution: "2.30 A"
+      description: "TNF-α + VHH#3 (Ablynx) — bottom epitope, single protomer, 736 A2 buried"
+    - id: "8Z8M"
+      description: "TNF-α + ozoralizumab VHH (approved Japan 2022)"
+    - id: "3ALQ"
+      description: "TNF-α + adalimumab Fab"
+
+  published_anti_tnf_vhh:
+    vhh1:
+      pdb: "5M2I"
+      kd_pm: 540
+      ic50_nm: 0.242
+      epitope: "Central TNFR-binding groove, contacts 2 protomers"
+      cdr3_buried_area: "599 A2 (CDR3 dominated)"
+    vhh2:
+      pdb: "5M2J"
+      kd_pm: 130
+      ic50_nm: 0.748
+      epitope: "Central groove, CDR1/CDR2 dominated (CDR3 only 131 A2)"
+    vhh3:
+      pdb: "5M2M"
+      kd_pm: 1500
+      ic50_nm: 1.503
+      epitope: "Bottom of receptor site, single protomer contact"
+    ozoralizumab:
+      pdb: "8Z8M"
+      kd_pm: 20.2  # trivalent avidity
+      status: "Approved Japan 2022 (Nanozora)"
+      format: "Trivalent: 2x anti-TNF VHH + 1x anti-HSA VHH"
+      note: "95.65% sequence identity to VHH#2"
+    cross_species_warning: |
+      CRITICAL: All published anti-TNF VHHs (ozoralizumab, TNFI-Nbs NN-223/224)
+      are HUMAN-SPECIFIC and do NOT cross-react with mouse TNF-α. This confirms
+      significant binding-interface divergence between species. Competition objective
+      2 (mouse cross-reactivity) requires deliberate design for conserved epitopes.
+
+  key_biology: |
+    TNF-α is a pleiotropic pro-inflammatory cytokine. Exists as a homotrimer
+    with three receptor-binding sites at protomer-protomer interfaces.
+    Therapeutic antibodies adalimumab and infliximab target the receptor-binding
+    groove between protomers for autoimmune diseases (RA, Crohn's, psoriasis).
+
+    Ozoralizumab (Nanozora) is the first approved anti-TNF nanobody drug (Japan 2022),
+    achieving IC50 = 12 pM as trivalent construct, outperforming adalimumab (127 pM).
+
+  binding_epitope: |
+    Receptor-binding sites located at GROOVES between adjacent protomers.
+    TNF residues contacted by VHH (<3.8 A, from PDB 5M2I/5M2J):
+    Monomer A: 20-25, 65-67, 70, 72-74, 77, 79, 81, 83, 88-92, 97, 107, 135-141
+    Monomer B: 115, 145-147
+    E-F loop (res ~140-146) is critical for receptor engagement.
+
+    For cross-species reactivity: MUST target residues conserved between human
+    and mouse TNF-α. Published VHHs are human-specific, so cross-reactivity
+    requires backbone-mediated contacts (N/S/T enrichment) at conserved positions.
+
+  ph_switch_precedent: |
+    W1-Humira (Hong et al. 2021, DOI:10.3390/biom11020334): pH-engineered
+    adalimumab with CDR His substitutions. Confirmed pH-dependent TNF binding
+    in vitro. Validates our Group C/D His-switch strategy directly for TNF-α.
+
+  therapeutic_reference:
+    adalimumab: "Humira — anti-TNF-α mAb, binds at protomer interface"
+    infliximab: "Remicade — chimeric anti-TNF-α mAb"
+    certolizumab: "Cimzia — PEGylated Fab"
+    etanercept: "Enbrel — TNFR2-Fc fusion (decoy receptor)"
+
+design_strategy:
+  framework:
+    scaffold: "cAbBCII10-derived synthetic VHH"
+    pdb_reference: "3DWT"
+    framework_regions:
+      FR1: "EVQLVESGGGLVQAGGSLRLSCAAS"  # 25 aa
+      FR2: "WFRQAPGKEREGVS"              # 14 aa
+      FR3: "RFTISRDNAKNTVYLQMNSLKPEDTAVYYC"  # 30 aa
+      FR4: "WGQGTQVTVSS"                 # 11 aa
+
+  four_design_groups:
+    group_A:
+      name: "Strong affinity binders (designs 01-05)"
+      count: 5
+      strategy: |
+        Maximum binding affinity to human TNF-α. Aromatic-rich CDR3 (W/Y/F)
+        targeting the protomer interface groove. No pH engineering.
+        Serves as affinity baseline controls.
+      ph_his_count: 0
+
+    group_B:
+      name: "Cross-species optimized (designs 06-10)"
+      count: 5
+      strategy: |
+        CDRs enriched in Asn(N), Ser(S), Thr(T) for backbone H-bonds to
+        conserved residues between human and mouse TNF-α. Avoids contacts
+        with species-variable surface positions. No pH engineering.
+      ph_his_count: 0
+
+    group_C:
+      name: "Mild pH switch (designs 11-15)"
+      count: 5
+      strategy: |
+        1-2 strategic His substitutions replacing W, R, or Y at CDR interface
+        positions. At pH 7.4 His is uncharged (H-bonds + aromatic stacking work).
+        At pH 6.0 His is protonated (+1 charge → electrostatic repulsion → no binding).
+        Based on Wei et al. 2022 (DOI:10.1002/prot.26340): W→His, R→His, Y→His
+        at CDR positions most effective for pH-dependent binding.
+      ph_his_count: "1-2 per design"
+
+    group_D:
+      name: "Strong pH switch + cross-species (designs 16-20)"
+      count: 5
+      strategy: |
+        3-4 His substitutions across CDR1/2/3 for maximum pH selectivity
+        PLUS cross-species epitope targeting via N/S/T enrichment.
+        Highest-scoring potential: addresses all three competition objectives.
+        Trade-off: more His → stronger pH switch but lower absolute affinity.
+      ph_his_count: "3-4 per design"
+
+  pH_switch_mechanism: |
+    HISTIDINE pH-SWITCH PRINCIPLE (Wei et al. 2022, Proteins 90:1538):
+    - pKa of His imidazole sidechain ≈ 6.0
+    - At pH 7.4 (physiological): His is uncharged → forms H-bonds, π-stacking
+    - At pH 6.0 (tumor/endosome): His protonated → +1 charge → electrostatic
+      clash with positively charged residues on antigen → binding disrupted
+    - Best positions: W→His, R→His, Y→His substitutions in CDR
+    - SIpHAB tool available: https://mm.nrc-cnrc.gc.ca/software/siphab/runner/
+    (Wei & Sulea 2024, mAbs 16:2404064)
+
+candidates:
+  count: 20
+  file: "vhh_candidates_20.fasta"
+  length_range: "116-121 aa"
+
+  summary_table:
+    - {id: "SyF-TNFa-01", group: A, length: 118, cdr3_len: 18, his_count: 0, strategy: "aromatic CDR3 groove"}
+    - {id: "SyF-TNFa-02", group: A, length: 117, cdr3_len: 17, his_count: 0, strategy: "ionic groove insertion"}
+    - {id: "SyF-TNFa-03", group: A, length: 121, cdr3_len: 21, his_count: 0, strategy: "extended tripleY max interface"}
+    - {id: "SyF-TNFa-04", group: A, length: 116, cdr3_len: 16, his_count: 0, strategy: "compact high affinity"}
+    - {id: "SyF-TNFa-05", group: A, length: 120, cdr3_len: 20, his_count: 0, strategy: "flat broad epitope"}
+    - {id: "SyF-TNFa-06", group: B, length: 118, cdr3_len: 18, his_count: 0, strategy: "conserved epitope NS-rich"}
+    - {id: "SyF-TNFa-07", group: B, length: 120, cdr3_len: 20, his_count: 0, strategy: "conserved backbone H-bonds"}
+    - {id: "SyF-TNFa-08", group: B, length: 116, cdr3_len: 16, his_count: 0, strategy: "compact conserved groove"}
+    - {id: "SyF-TNFa-09", group: B, length: 117, cdr3_len: 17, his_count: 0, strategy: "QNS backbone contacts"}
+    - {id: "SyF-TNFa-10", group: B, length: 120, cdr3_len: 20, his_count: 0, strategy: "broad conserved N-rich"}
+    - {id: "SyF-TNFa-11", group: C, length: 118, cdr3_len: 18, his_count: 1, strategy: "CDR2 W→H"}
+    - {id: "SyF-TNFa-12", group: C, length: 117, cdr3_len: 17, his_count: 1, strategy: "CDR3 W→H"}
+    - {id: "SyF-TNFa-13", group: C, length: 121, cdr3_len: 21, his_count: 2, strategy: "CDR1 R→H + CDR3 W→H"}
+    - {id: "SyF-TNFa-14", group: C, length: 116, cdr3_len: 16, his_count: 2, strategy: "CDR2 W→H + CDR3 W→H"}
+    - {id: "SyF-TNFa-15", group: C, length: 120, cdr3_len: 20, his_count: 1, strategy: "CDR1 W→H"}
+    - {id: "SyF-TNFa-16", group: D, length: 118, cdr3_len: 18, his_count: 3, strategy: "Y→H + W→H + W→H cross-species"}
+    - {id: "SyF-TNFa-17", group: D, length: 120, cdr3_len: 20, his_count: 3, strategy: "R→H + W→H + Y→H cross-species"}
+    - {id: "SyF-TNFa-18", group: D, length: 116, cdr3_len: 16, his_count: 4, strategy: "multi-His all CDRs"}
+    - {id: "SyF-TNFa-19", group: D, length: 120, cdr3_len: 20, his_count: 3, strategy: "W→H + W→H + Y→H broad"}
+    - {id: "SyF-TNFa-20", group: D, length: 117, cdr3_len: 17, his_count: 4, strategy: "max pH selectivity"}
+
+evidence_and_citations:
+  - citation: "Wei et al. (2022) Proteins 90:1538-1546"
+    doi: "10.1002/prot.26340"
+    relevance: "pH-switch engineering: W/R/Y→His mutations at CDR positions for tumor-selective binding"
+
+  - citation: "Wei & Sulea (2024) mAbs 16:2404064"
+    doi: "10.1080/19420862.2024.2404064"
+    relevance: "SIpHAB sequence-based pH-switch prediction tool; His scanning methodology"
+
+  - citation: "Hua et al. (2025) Adv Sci 12:e12360"
+    doi: "10.1002/advs.202512360"
+    relevance: "Anti-TNF-α nanobody secretion from engineered probiotics; proof of VHH-TNF binding"
+
+  - citation: "Morais et al. (2014) Nucl Med Biol 41:e44"
+    doi: "10.1016/j.nucmedbio.2014.01.009"
+    relevance: "Anti-TNF VHH biodistribution and albumin-binding fusion"
+
+next_steps:
+  - "Run Boltz-2 prediction on all 20 VHH + human TNF-α trimer (PDB 1TNF)"
+  - "Run Boltz-2 prediction on top candidates + mouse TNF-α (PDB 2TNF)"
+  - "Score by iPTM, pAE, pLDDT for binding confidence"
+  - "Calculate deltaSASA for interface quality"
+  - "Run SIpHAB (https://mm.nrc-cnrc.gc.ca/software/siphab/runner/) on Group C/D for pH-switch validation"
+  - "Submit top 20 to competition by 2026-10-11"
+
+pipeline_tools:
+  boltz2: "../boltz2/ — Structure prediction and affinity scoring"
+  rfantibody: "../rfantibody/ — RFdiffusion + ProteinMPNN + RF2 for VHH design"
+  nanoflow: "../nanobody-pipeline/ — 4-block VHH pipeline (Design→CoFold→Score→QC)"
+  boltzgen: "../BoltzGen/ — Generative protein design with ranking"
+  ligandmpnn: "../ligandMNPP/ — Sequence optimization"
+  abmpnn: "../AbMPNN/ — Antibody-trained sequence design"

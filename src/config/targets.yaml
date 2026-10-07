@@ -1,0 +1,44 @@
+# SyFlow NDC Target Registry
+# Maps target identifiers to their dossier paths and classification
+
+targets:
+  pnpla3:
+    gene_symbol: PNPLA3
+    full_name: "Patatin-like phospholipase domain-containing 3"
+    dossier: "targets/pnpla3/dossier.yaml"
+    classification: intracellular
+    ndc_viable: false
+    preferred_modality: small_molecule
+    indication: "NASH/MAFLD"
+    priority: reference  # Serves as reference for non-NDC targets
+
+  rhoa:
+    gene_symbol: RHOA
+    full_name: "Ras homolog family member A"
+    dossier: "targets/rhoa/dossier.yaml"
+    classification: intracellular
+    ndc_viable: indirect  # Via surface receptor targeting
+    preferred_modality: ndc_indirect
+    indication: "Gastric cancer, T-cell lymphoma"
+    priority: reference
+
+  tak1:
+    gene_symbol: MAP3K7
+    full_name: "Mitogen-activated protein kinase kinase kinase 7 (TAK1)"
+    dossier: "targets/tak1/dossier.yaml"
+    classification: intracellular
+    ndc_viable: indirect  # Surface receptor → TAK1i payload
+    preferred_modality: ndc_indirect
+    indication: "Inflammatory cancers, AML, pancreatic cancer"
+    priority: active
+
+  egfrviii:
+    gene_symbol: EGFR
+    variant: EGFRvIII
+    full_name: "Epidermal growth factor receptor variant III"
+    dossier: "targets/egfrviii/dossier.yaml"
+    classification: surface_neoantigen
+    ndc_viable: true  # Direct — ideal NDC target
+    preferred_modality: ndc_direct
+    indication: "GBM, NSCLC"
+    priority: pilot  # First prospective validation

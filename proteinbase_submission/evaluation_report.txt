@@ -1,0 +1,62 @@
+==========================================================================================
+EGFR VHH DESIGN EVALUATION — ProteinBase Submission
+==========================================================================================
+
+Total candidates evaluated: 49
+  PPI-Flow (EGFR_WT): 20
+  OpenDDE/rfantibody (EGFRvIII): 19
+  ForceFlowAb/IgLM (EGFRvIII): 10
+
+Selected for submission: 20
+Diversity threshold: 90% sequence identity
+
+Rank  Name                 Source             Target     Len   Score    iPTM     pLDDT    CDR-H3                 N-glyco 
+----------------------------------------------------------------------------------------------------------------------------------
+1     EGFRvIII_nb_01       OpenDDE/rfantibody EGFRvIII   118   0.8400   0.0000   0.9000   AAGGINAQSFTA           YES     
+2     EGFR_nb_0048         PPI-Flow           EGFR_WT    120   0.8207   0.7511   0.9342   AAARSMRTTSPEW          no      
+3     EGFR_nb_0033         PPI-Flow           EGFR_WT    118   0.8127   0.8272   0.9453   ARFDSYGYPDF            no      
+4     EGFR_nb_0036         PPI-Flow           EGFR_WT    123   0.8087   0.6556   0.9274   AATSGSGYSTVSTFQY       no      
+5     EGFR_nb_0017         PPI-Flow           EGFR_WT    122   0.8031   0.6530   0.8918   AAGGGLITTTSQAAF        no      
+6     EGFR_nb_0022         PPI-Flow           EGFR_WT    127   0.7988   0.8199   0.9307   ARGRTSGVMSTEVTLSSFDS   no      
+7     EGFR_nb_0019         PPI-Flow           EGFR_WT    127   0.7642   0.5834   0.8745   AAGLNTDGSTATWSFRIFTF   YES     
+8     EGFR_nb_0041         PPI-Flow           EGFR_WT    120   0.7536   0.5659   0.8886   ARGTSIGADYFDY          no      
+9     EGFR_nb_0016         PPI-Flow           EGFR_WT    118   0.7477   0.7928   0.9106   ARGWRLSSTTD            no      
+10    EGFR_nb_0029         PPI-Flow           EGFR_WT    118   0.7068   0.4692   0.9006   ARLTWDGTADY            no      
+11    EGFRvIII_nb_03       OpenDDE/rfantibody EGFRvIII   117   0.7060   0.0000   0.9100   AAGLETSPFTY            no      
+12    EGFR_nb_0035         PPI-Flow           EGFR_WT    117   0.6747   0.6207   0.9290   ARGRTSSFDS             no      
+13    EGFRvIII_nb_04       OpenDDE/rfantibody EGFRvIII   114   0.6680   0.0000   0.9000   AAYPVLGY               no      
+14    EGFRvIII_nb_06       OpenDDE/rfantibody EGFRvIII   117   0.6360   0.0000   0.9000   AAGYPTPVYQY            no      
+15    FFA_IgLM_design_00   ForceFlowAb/IgLM   EGFRvIII   120   0.6000   0.0000   0.8500   TREATRDYYYAMDV         no      
+16    FFA_IgLM_design_01   ForceFlowAb/IgLM   EGFRvIII   118   0.6000   0.0000   0.8500   TRDGYDYWYFDV           no      
+17    FFA_IgLM_design_02   ForceFlowAb/IgLM   EGFRvIII   122   0.6000   0.0000   0.8500   TREGYDGYAYFYGMDV       no      
+18    FFA_IgLM_design_03   ForceFlowAb/IgLM   EGFRvIII   121   0.6000   0.0000   0.8500   TRDYDGYTYFYAMDY        no      
+19    FFA_IgLM_design_06   ForceFlowAb/IgLM   EGFRvIII   123   0.6000   0.0000   0.8500   TRGITTVLEYYEYYMDV      no      
+20    EGFRvIII_nb_08       OpenDDE/rfantibody EGFRvIII   119   0.5980   0.0000   0.9100   AAGRGTGPLNYPY          YES     
+
+
+Pairwise identity (selected designs, lowest 5):
+  EGFR_nb_0019 vs FFA_IgLM_design_02: 0.449
+  EGFR_nb_0019 vs FFA_IgLM_design_03: 0.449
+  EGFR_nb_0019 vs FFA_IgLM_design_01: 0.457
+  EGFR_nb_0022 vs FFA_IgLM_design_01: 0.465
+  EGFR_nb_0022 vs FFA_IgLM_design_03: 0.465
+
+Pairwise identity (highest 5):
+  EGFR_nb_0016 vs EGFR_nb_0029: 0.856
+  EGFR_nb_0048 vs EGFR_nb_0041: 0.858
+  EGFR_nb_0033 vs EGFR_nb_0029: 0.873
+  EGFR_nb_0033 vs EGFR_nb_0016: 0.890
+  EGFRvIII_nb_03 vs EGFRvIII_nb_06: 0.897
+
+
+Liability summary:
+  Designs with N-glycosylation sites: 3/20
+  (All designs have common framework deamidation sites — expected for VHH)
+
+
+ProteinBase compliance check:
+  Designs: 20/20 ✓
+  Length range: 114-127 AA (✓ within 10-250)
+  Unique sequences: 20/20 ✓
+  Molecule class: nanobody (all)
+  Novelty: diverse CDR-H3 across 3 design pipelines — expect ≥3/4
