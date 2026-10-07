@@ -291,7 +291,7 @@ def write_submission_csv(selected: list[VHHCandidate], output_path: Path) -> Non
         writer = csv.writer(f)
         writer.writerow(["name", "sequence", "molecule_class"])
         for c in selected:
-            writer.writerow([c.name, c.sequence, "nanobody"])
+            writer.writerow([c.name, c.sequence, getattr(c, "molecule_class", "nanobody")])
     print(f"  ✓ Submission CSV: {output_path}")
 
 

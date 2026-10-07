@@ -1,0 +1,47 @@
+# All null fields require an explicit decision after the official release.
+challenge_id: challenge3
+rules:
+  source_url: null
+  reviewed_at: null
+  allowed_molecule_classes: null
+  min_chain_length: null
+  max_chain_length: null
+  max_designs: null
+  zero_shot_required: null
+  novelty_review_required: null
+# CSV: name,sequence,molecule_class,source; colon separates VH:VL.
+candidates_csv: null
+# JSON keyed by candidate name, with sequence_sha256, zero_shot, novelty,
+# target_specific_experimental_feedback_used and evidence file paths.
+evidence_json: null
+target:
+  id: null
+  species: null
+  construct: null
+  assembly_source: null
+  # Each chain: {id: A, sequence: ..., source: ...}; repeat protomers explicitly.
+  chains: null
+# Each ortholog/off-target has id/species/construct/assembly_source/chains.
+orthologs: []
+off_targets: []
+conditions:
+  ortholog: {enabled: null}
+  ph: {enabled: null, binding_condition: null, release_condition: null}
+  off_target: {enabled: null}
+# Optional local adapters. Commands receive snapshot config, candidates and output
+# paths via {config}, {candidates}, {output}; no shell expansion.
+# Result JSON: {candidate_name: {sequence_sha256: ..., status: pass|fail|unknown,
+#                              evidence: ..., metrics: {...}}}
+# pH/off-target enabled requires a corresponding adapter. No built-in pH claim.
+hooks: {}
+boltz:
+  executable: boltz
+  expected_version: null
+  seeds: [11, 22, 33]  # engineering default, not a competition requirement
+  recycling_steps: 3
+  use_msa_server: false
+ranking:
+  metric: min_context_mean_binder_target_iptm
+  min_score: null
+  max_seed_std: null
+  diversity_identity: 0.90  # existing positional-identity heuristic, not novelty
