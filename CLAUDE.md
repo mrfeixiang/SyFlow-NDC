@@ -33,17 +33,21 @@ The unit of work is one **NDC candidate dossier**:
 ## Commands
 ```bash
 # Run a target validation
-python run_syflow.py validate --target egfrviii --query "Evaluate EGFRvIII as NDC target for GBM"
+python -m src validate --target egfrviii --query "Evaluate EGFRvIII as NDC target for GBM"
 
 # Run a gate assessment
-python run_syflow.py gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
 
 # Verify a completed run
-python run_syflow.py verify --run-id <RUN_ID>
+python -m src verify --run-id <RUN_ID>
 
 # Replay a run (stochastic comparison)
-python run_syflow.py replay --run-id <RUN_ID>
+python -m src replay --run-id <RUN_ID>
 ```
+
+After `pip install -e .`, the same commands are available as `syflow validate|gate|verify|replay`.
+Helper scripts live in `scripts/` (`setup_mcp.py`, `evaluate_egfr_vhh.py`, slide builders).
+Slide decks live in `docs/slides/`.
 
 ## Related AIDD SYStem resources
 - PNPLA3 binding: `../Nesso-1/nesso_pnpla3/` (Nesso/Boltz-2 docking)

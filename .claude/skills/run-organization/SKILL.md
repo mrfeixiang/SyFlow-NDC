@@ -73,6 +73,20 @@ Parallel groups are computed automatically.
 - Record verdict: Go, Hold (with specified next experiment), or No-Go (with rationale)
 - Require human approval signature for any Go decision
 
+## Commands
+
+From the repository root, after `pip install -e .`:
+
+```bash
+python -m src validate --target egfrviii --query "Evaluate EGFRvIII as NDC target for GBM"
+python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+python -m src verify --run-id <RUN_ID>
+python -m src replay --run-id <RUN_ID>
+python scripts/setup_mcp.py
+```
+
+`syflow` is the installed console script for the same subcommands.
+
 ## Key rules
 
 - The CSO has NO data query tools — delegate all analysis

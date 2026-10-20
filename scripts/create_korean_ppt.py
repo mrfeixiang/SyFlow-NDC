@@ -8,13 +8,15 @@ Reuses existing figure PNGs for slides 2-5.
 from __future__ import annotations
 
 from pathlib import Path
-from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 
-FIGURES_DIR = Path(__file__).parent / "figures"
+from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
+from pptx.util import Inches, Pt
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+FIGURES_DIR = REPO_ROOT / "figures"
 
 # ─── Color palette ───────────────────────────────────────────────────────────
 C_BG      = "#0F1419"
@@ -250,8 +252,8 @@ def slide_7_todo(prs):
         "\u2610 conda env create -f environment.yml",
         "\u2610 RTX 5080 CUDA \ud655\uc778: torch.cuda.get_device_name(0)",
         "\u2610 sm_120 PyTorch nightly (cu128)\ub85c RFdiffusion \uc124\uce58",
-        "\u2610 \uc2e4\ud589: python setup_mcp.py \u2192 mcp_config.json",
-        "\u2610 \ud14c\uc2a4\ud2b8: python run_syflow.py validate --target egfrviii",
+        "\u2610 \uc2e4\ud589: python scripts/setup_mcp.py \u2192 mcp_config.json",
+        "\u2610 \ud14c\uc2a4\ud2b8: python -m src validate --target egfrviii",
     ]
     for i, item in enumerate(p1):
         add_text_box(slide, 0.6, 1.22 + i * 0.3, 5.8, 0.28, item, font_size=9, color=C_TEXT)
@@ -261,7 +263,7 @@ def slide_7_todo(prs):
                  "2\ub2e8\uacc4 \u2014 EGFRvIII \ud30c\uc77c\ub7ff (2-4\uc8fc\ucc28)",
                  font_size=14, bold=True, color=C_NANO)
     p2 = [
-        "\u2610 G0 \uac8c\uc774\ud2b8 \uc2e4\ud589: python run_syflow.py gate --target egfrviii --gate G0",
+        "\u2610 G0 \uac8c\uc774\ud2b8 \uc2e4\ud589: python -m src gate --target egfrviii --gate G0",
         "\u2610 GPU: RFdiffusion \u2192 EGFRvIII VHH \ud6c4\ubcf4\ubb3c\uc9c8 \uc0dd\uc131",
         "\u2610 GPU: LigandMPNN \u2192 \ubc14\uc778\ub354 \uc2dc\ud000\uc2a4 \ucd5c\uc801\ud654",
         "\u2610 GPU: Boltz-2 \u2192 VHH-EGFRvIII \ubcf5\ud569\uccb4 \uad6c\uc870 \uc608\uce21",
@@ -378,7 +380,9 @@ def create_korean_ppt():
     slide_8_key_decisions(prs)
     print("  [8/8] Key Design Decisions")
 
-    out_path = Path(__file__).parent / "SyFlow_NDC_Workflow_KR.pptx"
+    slides_dir = REPO_ROOT / "docs" / "slides"
+    slides_dir.mkdir(parents=True, exist_ok=True)
+    out_path = slides_dir / "SyFlow_NDC_Workflow_KR.pptx"
     prs.save(str(out_path))
     print(f"\nSaved: {out_path}")
     return out_path

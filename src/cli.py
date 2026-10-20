@@ -2,10 +2,11 @@
 """SyFlow NDC Go/No-Go Platform — Main Runner
 
 Usage:
-    python run_syflow.py validate --target egfrviii --query "Evaluate EGFRvIII as NDC target"
-    python run_syflow.py gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
-    python run_syflow.py verify --run-id 20260928_egfrviii_001
-    python run_syflow.py replay --run-id 20260928_egfrviii_001
+    syflow validate --target egfrviii --query "Evaluate EGFRvIII as NDC target"
+    python -m src validate --target egfrviii --query "Evaluate EGFRvIII as NDC target"
+    python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+    python -m src verify --run-id 20260928_egfrviii_001
+    python -m src replay --run-id 20260928_egfrviii_001
 
 Adapted from Virtual Biotech run_vbt.py pattern.
 """
@@ -20,20 +21,18 @@ from pathlib import Path
 
 import yaml
 
-# Add project root to path
-PROJECT_ROOT = Path(__file__).parent
-sys.path.insert(0, str(PROJECT_ROOT))
+# Repository root (parent of the src package). Keeps dossier and run paths
+# stable whether the CLI is launched as `python -m src` or `python src/cli.py`.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.schemas.dossier import NDCDossier
-from src.schemas.gate import GateID, GateDecision, GateVerdict, GATE_DEFINITIONS
-from src.utils.session_audit import SessionAudit
-from src.utils.run_manifest import RunManifest
-from src.utils.trace_logger import TraceLogger
+from src.agents.registry import AGENT_REGISTRY, build_specialist_agents
+from src.schemas.gate import GATE_DEFINITIONS, GateID
 from src.utils.plan_runner import PlanRunner, validate_plan
 from src.utils.provenance import Provenance
-from src.utils.claims import validate_claims
-from src.agents.registry import AGENT_REGISTRY, build_specialist_agents
-
+from src.utils.run_manifest import RunManifest
+from src.utils.session_audit import SessionAudit
 
 RUNS_DIR = Path(os.getenv("SYFLOW_RUNS_DIR", PROJECT_ROOT / "runs"))
 
@@ -123,7 +122,7 @@ def build_validation_plan(target: str, dossier: dict) -> dict:
         steps.append({
             "id": "s4_conjugation",
             "agent": "conjugation_payload",
-            "task": f"Assess conjugate product quality and antigen-dependent killing",
+            "task": "Assess conjugate product quality and antigen-dependent killing",
             "depends_on": ["s3_delivery"] if is_surface else ["s2_nanobody"],
             "expected_outputs": ["conjugate_assessment.md", "cytotoxicity_data.csv"],
         })
@@ -242,14 +241,14 @@ def cmd_validate(args: argparse.Namespace) -> None:
     print("=" * 60)
     print(f"\nRun directory: {run_dir}")
     print(f"Query: {query}")
-    print(f"\nTo execute with Claude Agent SDK:")
-    print(f"  1. Set ANTHROPIC_API_KEY in .env")
+    print("\nTo execute with Claude Agent SDK:")
+    print("  1. Set ANTHROPIC_API_KEY in .env")
     print(f"  2. Run: claude --project {run_dir} \"{query}\"")
-    print(f"\nTo verify after completion:")
-    print(f"  python run_syflow.py verify --run-id {run_id}")
+    print("\nTo verify after completion:")
+    print(f"  python -m src verify --run-id {run_id}")
 
     # Finalize
-    report = audit.finish_run("initialized")
+    audit.finish_run("initialized")
     print(f"\nAudit saved: {run_dir / 'audit.json'}")
 
 
@@ -303,7 +302,7 @@ def cmd_gate(args: argparse.Namespace) -> None:
     with open(run_dir / "inputs" / "dossier.yaml", "w") as f:
         yaml.dump(dossier, f, default_flow_style=False)
 
-    report = audit.finish_run("initialized")
+    audit.finish_run("initialized")
     print(f"Gate assessment run initialized: {run_id}")
     print(f"Run directory: {run_dir}")
 

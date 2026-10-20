@@ -15,8 +15,8 @@ Selection criteria:
 """
 import csv
 import re
+from dataclasses import dataclass
 from pathlib import Path
-from dataclasses import dataclass, field
 
 BASE = Path("/home/syslab/Desktop/AIDD SYStem")
 
@@ -123,7 +123,6 @@ def load_opendde_egfrviii() -> list[VHHCandidate]:
                 seq.append(line)
         # Handle last entry
         if name and name not in existing_names:
-            header_line = ""  # We already processed it above
             c_seq = "".join(seq)
             if c_seq:
                 # Get from the last header we saw - simplified
@@ -233,7 +232,7 @@ def print_evaluation_report(all_candidates: list[VHHCandidate],
         lines.append(f"  {src}: {count}")
 
     lines.append(f"\nSelected for submission: {len(selected)}")
-    lines.append(f"Diversity threshold: 90% sequence identity")
+    lines.append("Diversity threshold: 90% sequence identity")
     lines.append("")
 
     # Selected designs table
@@ -266,20 +265,20 @@ def print_evaluation_report(all_candidates: list[VHHCandidate],
 
     # Liability summary
     n_glyco_count = sum(1 for c in selected if c.n_glyco)
-    lines.append(f"\n\nLiability summary:")
+    lines.append("\n\nLiability summary:")
     lines.append(f"  Designs with N-glycosylation sites: {n_glyco_count}/{len(selected)}")
-    lines.append(f"  (All designs have common framework deamidation sites — expected for VHH)")
+    lines.append("  (All designs have common framework deamidation sites — expected for VHH)")
 
     # ProteinBase compliance
-    lines.append(f"\n\nProteinBase compliance check:")
+    lines.append("\n\nProteinBase compliance check:")
     lines.append(f"  Designs: {len(selected)}/20 ✓")
     all_in_range = all(10 <= c.seq_len <= 250 for c in selected)
     lines.append(f"  Length range: {min(c.seq_len for c in selected)}-{max(c.seq_len for c in selected)} AA "
                  f"({'✓' if all_in_range else '✗'} within 10-250)")
     unique_seqs = len(set(c.sequence for c in selected))
     lines.append(f"  Unique sequences: {unique_seqs}/{len(selected)} ✓")
-    lines.append(f"  Molecule class: nanobody (all)")
-    lines.append(f"  Novelty: diverse CDR-H3 across 3 design pipelines — expect ≥3/4")
+    lines.append("  Molecule class: nanobody (all)")
+    lines.append("  Novelty: diverse CDR-H3 across 3 design pipelines — expect ≥3/4")
 
     report = "\n".join(lines)
     return report
@@ -349,7 +348,7 @@ def main():
     print(report)
 
     # Write outputs
-    out_dir = Path(__file__).parent / "proteinbase_submission"
+    out_dir = Path(__file__).resolve().parent.parent / "proteinbase_submission"
     out_dir.mkdir(exist_ok=True)
 
     print("\nWriting submission files...")

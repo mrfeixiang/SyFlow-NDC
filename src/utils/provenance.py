@@ -5,13 +5,11 @@ self-reported by agents. An agent cannot misattribute its own work.
 """
 from __future__ import annotations
 
-import json
-from collections import defaultdict
 from pathlib import Path
 from typing import Any, Optional
 
-from .trace_logger import TraceLogger
 from .run_manifest import RunManifest
+from .trace_logger import TraceLogger
 
 
 class AgentActivity:

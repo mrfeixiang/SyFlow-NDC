@@ -10,19 +10,19 @@ Creates:
 from __future__ import annotations
 
 import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
-import numpy as np
-from pathlib import Path
-from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
-from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
 
-OUT_DIR = Path(__file__).parent / "figures"
+matplotlib.use("Agg")
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyBboxPatch
+from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.text import PP_ALIGN
+from pptx.util import Inches, Pt
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUT_DIR = REPO_ROOT / "figures"
 OUT_DIR.mkdir(exist_ok=True)
 
 # ─── Color palette ───────────────────────────────────────────────────────────
@@ -541,8 +541,8 @@ def create_ppt():
         "☐ conda env create -f environment.yml",
         "☐ Verify RTX 5080 CUDA: torch.cuda.get_device_name(0)",
         "☐ Install RFdiffusion with sm_120 PyTorch nightly (cu128)",
-        "☐ Run: python setup_mcp.py → mcp_config.json",
-        "☐ Test: python run_syflow.py validate --target egfrviii",
+        "☐ Run: python scripts/setup_mcp.py → mcp_config.json",
+        "☐ Test: python -m src validate --target egfrviii",
     ]
     for i, item in enumerate(p1):
         add_text_box(slide, 0.7, 1.55 + i * 0.33, 5.5, 0.3, item, font_size=10, color=C_TEXT)
@@ -550,7 +550,7 @@ def create_ppt():
     # Phase 2
     add_text_box(slide, 0.5, 3.6, 6, 0.4, "Phase 2 — EGFRvIII Pilot (Weeks 2-4)", font_size=16, bold=True, color=C_NANO)
     p2 = [
-        "☐ Run G0 gate: python run_syflow.py gate --target egfrviii --gate G0",
+        "☐ Run G0 gate: python -m src gate --target egfrviii --gate G0",
         "☐ GPU: RFdiffusion → generate EGFRvIII VHH candidates",
         "☐ GPU: LigandMPNN → optimize binder sequences",
         "☐ GPU: Boltz-2 → predict VHH-EGFRvIII complex structures",
@@ -617,7 +617,9 @@ def create_ppt():
         add_text_box(slide, 0.8, y + 0.35, 11, 0.35, desc, font_size=11, color=C_SUBTEXT)
 
     # Save
-    ppt_path = Path(__file__).parent / "SyFlow_NDC_Workflow.pptx"
+    slides_dir = REPO_ROOT / "docs" / "slides"
+    slides_dir.mkdir(parents=True, exist_ok=True)
+    ppt_path = slides_dir / "SyFlow_NDC_Workflow.pptx"
     prs.save(str(ppt_path))
     print(f"\n✓ Presentation saved: {ppt_path}")
     return ppt_path

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: SyFlow NDC Go/No-Go Platform
+message: If you use this software, please cite it using this metadata.
+type: software
+authors:
+  - family-names: Pei
+    given-names: Syang
+repository-code: https://github.com/mrfeixiang/SyFlow-NDC
+url: https://github.com/mrfeixiang/SyFlow-NDC
+license: MIT
+version: 0.1.0
+date-released: "2026-10-20"
+keywords:
+  - nanobody-drug conjugate
+  - target validation
+  - provenance
