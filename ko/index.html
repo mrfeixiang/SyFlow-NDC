@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SyFlow NDC Go/No-Go Platform</title>
+  <meta name="description" content="나노바디-약물 접합체 도씨에를 위한 출처 우선 Go/Hold/No-Go 결정."/>
+  <link rel="canonical" href="https://mrfeixiang.github.io/SyFlow-NDC/ko/"/>
+  <link rel="alternate" hreflang="en" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="alternate" hreflang="ko" href="https://mrfeixiang.github.io/SyFlow-NDC/ko/"/>
+  <link rel="alternate" hreflang="zh-CN" href="https://mrfeixiang.github.io/SyFlow-NDC/zh/"/>
+  <link rel="alternate" hreflang="x-default" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --paper: #f6f1e7;
+      --card: #fffdf8;
+      --line: #e2d8c8;
+      --teal: #0f3d3e;
+      --teal-2: #1d6a62;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Source Sans 3", "Noto Sans KR", "Noto Sans SC", "Segoe UI", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--teal);
+      color: #f6f1e7;
+      padding: 1.4rem 1.25rem 2rem;
+    }
+    header .wrap, main {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .langs {
+      margin: 0 0 1.1rem;
+      font-size: 0.95rem;
+    }
+    .langs a { color: #f3d7a1; }
+    .langs [aria-current="page"] {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .kicker {
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: #c9e4df;
+      margin: 0 0 0.6rem;
+    }
+    h1 {
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
+      font-weight: 650;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.15;
+      margin: 0 0 0.75rem;
+    }
+    .pitch { margin: 0; max-width: 40rem; color: #efe6d6; }
+    header a { color: #f3d7a1; }
+    main { padding: 1.5rem 1.25rem 3rem; }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0.5rem 1.4rem 2rem;
+    }
+    h2, h3 {
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
+    }
+    h2 {
+      font-weight: 650;
+      font-size: 1.7rem;
+      margin-top: 2rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--line);
+    }
+    a { color: var(--teal-2); }
+    code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    code {
+      background: #f3ecdf;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+    pre {
+      background: #14222e;
+      color: #f6f1e7;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    pre.mermaid {
+      background: var(--card);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 0.45rem 0.6rem;
+      vertical-align: top;
+    }
+    th { color: var(--teal); }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    footer {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 1.25rem 2.5rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="langs" aria-label="언어"><a href="../" hreflang="en" lang="en">English</a> | <span aria-current="page" lang="ko">한국어</span> | <a href="../zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a></nav>
+      <p class="kicker">SyFlow · 나노바디-약물 접합체</p>
+      <h1>SyFlow NDC Go/No-Go Platform</h1>
+      <p class="pitch">나노바디-약물 접합체 도씨에 한 건씩, 출처를 남기는 Go/Hold/No-Go 결정을 내립니다.</p>
+    </div>
+  </header>
+  <main>
+    <article>
+<p><a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/environment.yml"><img alt="Python 3.11" src="https://img.shields.io/badge/python-3.11-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml/badge.svg" /></a></p>
+<p>문서 사이트: <a href="https://mrfeixiang.github.io/SyFlow-NDC/ko/">https://mrfeixiang.github.io/SyFlow-NDC/ko/</a></p>
+<p>작업 단위는 <strong>NDC 후보 도씨에</strong> 한 건입니다. 적응증 × 표면 항원 × VHH 서열 × 접합 부위 × 링커-페이로드 × 제조 배치. 이 플랫폼은 Stanford <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a>의 검토-감사 패턴을 가져왔습니다.</p>
+<h2 id="_1">파이프라인</h2>
+<p><code>src/agents/registry.py</code>의 <code>AGENT_REGISTRY</code>에는 에이전트 <strong>일곱</strong> 개가 등록되어 있습니다. <code>src/schemas/gate.py</code>의 <code>GATE_DEFINITIONS</code>는 게이트 <strong>여섯</strong> 개(G0–G5)를 정의합니다. G3과 G4는 <code>conjugation_payload</code>를 공유합니다. CSO는 오케스트레이터(<code>is_orchestrator: True</code>)이며 <code>build_specialist_agents</code>에서 제외됩니다. 과학 검토자는 읽기 전용(<code>Read</code>, <code>Glob</code>, <code>Grep</code>)입니다.</p>
+<p><code>python -m src validate</code>는 모델을 <strong>호출하지 않습니다</strong>. 도씨에를 읽고 계획 DAG를 쓴 다음 <code>work/&lt;agent&gt;/results/task.md</code>를 만들고 감사를 기록합니다. <code>replay</code>는 아직 구현되지 않았다는 문구를 출력합니다.</p>
+<pre class="mermaid">flowchart TD
+  query[&quot;Query and dossier YAML&quot;] --&gt; cso[&quot;CSO orchestrator&lt;br/&gt;no data-query tools&quot;]
+  cso --&gt; plan[&quot;build_validation_plan&quot;]
+  plan --&gt; g0[&quot;G0 target_patient&lt;br/&gt;always scheduled&quot;]
+  plan --&gt; g1[&quot;G1 nanobody_epitope&lt;br/&gt;parallel with G0 if dossier has vhh&quot;]
+  g1 --&gt; g2[&quot;G2 delivery&lt;br/&gt;only if is_surface_protein&quot;]
+  g2 --&gt; g34[&quot;G3 product and G4 function&lt;br/&gt;conjugation_payload&lt;br/&gt;only if dossier has conjugate&quot;]
+  g0 --&gt; g5[&quot;G5 translation_safety&lt;br/&gt;depends on every earlier step&quot;]
+  g1 --&gt; g5
+  g2 --&gt; g5
+  g34 --&gt; g5
+  g5 --&gt; rev[&quot;scientific_reviewer&lt;br/&gt;depends on every earlier step&quot;]
+  rev --&gt; decision[&quot;Run directory initialized&lt;br/&gt;Go / Hold / No-Go is not auto-decided&quot;]
+</pre>
+<p>체크인된 EGFRvIII, TAK1, RhoA, PNPLA3 도씨에에는 최상위 <code>conjugate</code> 키가 없으므로 <code>validate</code>는 <code>conjugation_payload</code>를 일정에 넣지 않습니다. G3과 G4는 <code>gate</code>로 열 수 있으며, 그때 읽는 값은 <code>GATE_DEFINITIONS</code>입니다.</p>
+<table>
+<thead>
+<tr>
+<th>게이트</th>
+<th>코드상의 이름</th>
+<th>담당 에이전트</th>
+<th>No-Go 조건에 포함</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G0</td>
+<td>표적과 환자 선정</td>
+<td><code>target_patient</code></td>
+<td>막 접근성 없음. 치료 범위가 성립하기 어려움</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>VHH 결합과 선택성</td>
+<td><code>nanobody_epitope</code></td>
+<td>WT 세포에서 선택성 상실. 재현되는 결합 없음</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>내재화와 수송</td>
+<td><code>delivery</code></td>
+<td>내재화 없음. 수송 구획이 의도한 곳과 다름</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>접합체 정체성과 안정성</td>
+<td><code>conjugation_payload</code></td>
+<td>불안정하거나 정의가 부족한 제품. 유리 페이로드가 높음</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>항원 의존적 살상</td>
+<td><code>conjugation_payload</code></td>
+<td>살상이 유리 페이로드를 따르거나 표적 음성 세포에서 일어남</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>노출과 치료 범위</td>
+<td><code>translation_safety</code></td>
+<td>치료 범위 없음. 허용할 수 없는 신장 독성</td>
+</tr>
+</tbody>
+</table>
+<p><code>src/config/gates.yaml</code>에는 기준별 메모가 있는 병렬 템플릿이 있습니다. CLI가 쓰는 것은 그 YAML이 아니라 Python 표입니다.</p>
+<h2 id="_2">기능</h2>
+<ul>
+<li>Pydantic 도씨에, 주장, 게이트 스키마 (<code>src/schemas/</code>).</li>
+<li>근거 유형: <code>prediction</code>, <code>literature_evidence</code>, <code>retrospective_analysis</code>, <code>syflow_wetlab</code>, <code>independent_replication</code>. 습식 실험 필드에는 ELN과 LIMS 배치 ID가 들어갑니다.</li>
+<li><code>MANIFEST.json</code>과 <code>trace.jsonl</code>에 대한 주장 검사 (<code>src/utils/claims.py</code>).</li>
+<li>SHA-256 산출물 매니페스트, 추가 전용 추적, DAG 계획 검증(순환 검출), 추적에서 재구성하는 출처.</li>
+<li><code>audit.json</code>과 실행 요약을 쓰는 세션 감사 (<code>src/utils/session_audit.py</code>).</li>
+<li><code>src/mcp_servers/provenance_mcp/server.py</code>의 출처 MCP 골격. <code>python scripts/setup_mcp.py</code>가 <code>mcp_config.json</code>을 씁니다. 서버 모듈은 자신을 단순화된 stdio 골격으로 설명합니다.</li>
+<li><code>targets/</code> 아래의 표적별 도씨에와, CLI가 읽는 <code>src/config/targets.yaml</code> 표적 레지스트리. 지원하는 <code>--target</code> 값은 <code>pnpla3</code>, <code>rhoa</code>, <code>tak1</code>, <code>egfrviii</code>입니다.</li>
+</ul>
+<h2 id="_3">빠른 시작</h2>
+<p><code>environment.yml</code>은 <code>syflow-ndc</code> conda 환경(Python 3.11과 런타임 의존성)을 만듭니다. <code>syflow</code>와 <code>python -m src</code>가 저장소 루트에서 도씨에 경로를 찾도록 이 저장소를 편집 가능 모드로 설치합니다.</p>
+<pre><code class="language-bash">conda env create -f environment.yml
+conda activate syflow-ndc
+pip install -e &quot;.[dev]&quot;
+cp .env.example .env   # set ANTHROPIC_API_KEY if you later wire a model client
+</code></pre>
+<p>슬라이드 생성에는 matplotlib와 python-pptx가 추가로 필요합니다.</p>
+<pre><code class="language-bash">pip install -e &quot;.[slides]&quot;
+</code></pre>
+<h2 id="_4">사용법</h2>
+<pre><code class="language-bash">syflow --help
+python -m src --help
+
+python -m src validate --target egfrviii --query &quot;Evaluate EGFRvIII as NDC target for GBM&quot;
+python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+python -m src verify --run-id &lt;RUN_ID&gt;
+python -m src replay --run-id &lt;RUN_ID&gt;
+
+python scripts/setup_mcp.py
+python scripts/smoke_check.py
+</code></pre>
+<p><code>validate</code>와 <code>gate</code>는 <code>SYFLOW_RUNS_DIR</code>(기본값 <code>&lt;workspace&gt;/runs</code>, gitignore 대상) 아래에 <code>YYYYMMDD_&lt;target&gt;_NNN</code> 형식의 id로 씁니다. <code>verify</code>는 그 디렉터리를 다시 읽고 매니페스트를 재해시하며 출처를 재구성합니다. <code>replay</code>는 미구현이라는 메시지를 출력하고 종료합니다.</p>
+<p><code>scripts/evaluate_egfr_vhh.py</code>는 하드코딩된 디렉터리 <code>/home/syslab/Desktop/AIDD SYStem</code>에서 설계 표를 읽고 <code>proteinbase_submission/</code>에 씁니다. 그 설계 입력은 이 저장소에 없습니다. 커밋된 보고서 <code>proteinbase_submission/evaluation_report.txt</code>는 후보 49건(PPI-Flow EGFR WT 20, OpenDDE/rfantibody EGFRvIII 19, ForceFlowAb/IgLM EGFRvIII 10)을 기록하고, <code>select_diverse_top20</code>의 90% 동일성 필터로 서열 20건을 남깁니다.</p>
+<pre><code class="language-bash">python scripts/create_workflow_ppt.py    # writes figures/ and docs/slides/SyFlow_NDC_Workflow.pptx
+python scripts/create_korean_ppt.py      # writes docs/slides/SyFlow_NDC_Workflow_KR.pptx
+</code></pre>
+<h2 id="_5">표적</h2>
+<p>아래 분류는 <code>src/config/targets.yaml</code>과 각 도씨에에서 가져왔습니다. 게이트 행은 도씨에의 <code>gate_expectations</code>이며 측정 결과가 아닙니다.</p>
+<table>
+<thead>
+<tr>
+<th>표적</th>
+<th>도씨에의 적응증</th>
+<th>표면 단백질</th>
+<th>도씨에에 기록된 NDC 경로</th>
+<th>CLI <code>--target</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EGFRvIII</td>
+<td>GBM, NSCLC, 두경부 SCC</td>
+<td>예 (<code>is_surface_protein: true</code>)</td>
+<td>직접 NDC. 단계 <code>binder_discovery</code>. 표적 레지스트리의 파일럿</td>
+<td><code>egfrviii</code></td>
+</tr>
+<tr>
+<td>TAK1 / MAP3K7</td>
+<td>염증성 암, AML, 췌장암, KRAS 변이 종양</td>
+<td>아니오 (세포질 인산화효소)</td>
+<td>간접: 표면 수용체와 TAK1 저해제 페이로드. G0 예상: hold</td>
+<td><code>tak1</code></td>
+</tr>
+<tr>
+<td>RhoA</td>
+<td>RhoA 경로가 활성화된 고형 종양(미만성 위암, T세포 림프종)</td>
+<td>아니오</td>
+<td>표면 수용체를 통한 간접 경로(EphA2, CXCR4, 또는 인테그린 αvβ3). G0 예상: hold</td>
+<td><code>rhoa</code></td>
+</tr>
+<tr>
+<td>PNPLA3</td>
+<td>NASH / MAFLD</td>
+<td>아니오 (지질 방울 단백질)</td>
+<td>도씨에 양식은 <code>small_molecule</code>. G0 예상: <code>no_go_for_ndc</code></td>
+<td><code>pnpla3</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>targets/tnfa/</code>와 <code>targets/nk2r/</code>에는 추가 도씨에가 있습니다. CLI <code>--target</code> 선택지는 아닙니다.</p>
+<h2 id="_6">저장소 구성</h2>
+<pre><code>├── src/
+│   ├── cli.py                 # validate, gate, verify, replay
+│   ├── __main__.py            # python -m src
+│   ├── agents/                # registry plus system prompts
+│   ├── schemas/               # dossier, evidence, gates
+│   ├── utils/                 # trace, manifest, provenance, plan, audit, claims
+│   ├── config/                # gates.yaml (reference), targets.yaml (CLI registry)
+│   └── mcp_servers/           # provenance MCP skeleton
+├── scripts/
+│   ├── setup_mcp.py
+│   ├── evaluate_egfr_vhh.py
+│   ├── create_workflow_ppt.py
+│   ├── create_korean_ppt.py
+│   ├── smoke_check.py
+│   └── build_pages.py         # README → site/ for GitHub Pages
+├── targets/                   # per-target dossier YAML
+├── proteinbase_submission/    # committed VHH submission files and evaluation report
+├── figures/                   # architecture and workflow PNGs
+├── docs/slides/               # English and Korean decks
+├── README.md                  # English
+├── README.ko.md               # Korean
+├── README.zh-CN.md            # Simplified Chinese
+├── environment.yml
+├── pyproject.toml
+└── .claude/skills/            # evidence-citation, run-organization
+</code></pre>
+<h2 id="_7">그림</h2>
+<p><code>scripts/create_workflow_ppt.py</code>가 생성합니다 (분야 전문가 다섯, CSO, 검토자).</p>
+<p><img alt="에이전트 구조" src="../figures/agent_architecture.png" /></p>
+<p><img alt="게이트 흐름" src="../figures/gate_workflow.png" /></p>
+<p><img alt="표적 포트폴리오" src="../figures/target_portfolio.png" /></p>
+<p><img alt="EGFRvIII 파일럿 배치" src="../figures/egfrviii_pilot.png" /></p>
+<h2 id="_8">인용</h2>
+<p>이 소프트웨어를 쓰면 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/CITATION.cff"><code>CITATION.cff</code></a>를 인용해 주세요.</p>
+<pre><code class="language-bibtex">@software{pei_2026_syflow_ndc,
+  author       = {Pei, Syang},
+  title        = {SyFlow NDC Go/No-Go Platform},
+  year         = {2026},
+  url          = {https://github.com/mrfeixiang/SyFlow-NDC},
+  license      = {MIT}
+}
+</code></pre>
+<h2 id="_9">감사</h2>
+<p>구조는 Stanford <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a>의 검토-감사 패턴을 가져왔습니다. 이 저장소의 NDC 게이트 정의, 근거 유형 라벨, 습식 실험 출처 필드는 SyFlow 고유입니다.</p>
+<h2 id="_10">라이선스</h2>
+<p><a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE">MIT License</a>로 공개합니다. Copyright (c) 2026 Syang Pei.</p>
+<h2 id="_11">런타임 경계와 설치 경로</h2>
+<p><code>src/schemas/gate.py:GATE_DEFINITIONS</code>가 CLI와 MCP 모두의 현재 런타임 출처입니다.
+<code>src/config/gates.yaml</code>은 실행되지 않는 참조 템플릿이며, 기준 ID, 트리거, 추가 근거 유형 주석이 Python 표와 다릅니다. 그 주석은 강제되지 않습니다.
+별도의 과학 정책 검토 없이 출처를 바꾸지 마세요.</p>
+<p>작업 공간은 <code>SYFLOW_PROJECT_ROOT</code>가 있으면 그 값이고, 없으면 편집 가능 설치의 소스 체크아웃이며, 휠 설치에서는 현재 작업 디렉터리입니다. <code>SYFLOW_RUNS_DIR</code>는 CLI와 MCP 모두에서 쓸 수 있는 실행 위치를 덮어씁니다. 도씨에는 휠에 포함되지 않은 외부 입력입니다. <code>--dossier /path/to/dossier.yaml</code>를 쓰거나 <code>targets/</code>가 있는 작업 공간을 <code>SYFLOW_PROJECT_ROOT</code>로 가리키세요. 입력이 없거나 형식이 잘못되면 실행 디렉터리를 만들기 전에 실패합니다. 표면 표적을 조용히 가정하지 않습니다.</p>
+<p>TNF-alpha와 NK2R은 지원 표적 레지스트리 밖에 있습니다. 체크인된 도씨에는 바인더/작용제 캠페인이고 <code>is_surface_protein</code>이 없으며, 세포독성 NDC 게이트를 적용하려면 그 양식에 맞춘 합의된 워크플로가 먼저 필요합니다. CLI 선택지만 더하는 것은 검증이 아닙니다.</p>
+<p><code>validate</code>와 <code>gate</code>는 대기 중인 계획만 초기화합니다. 작업 파일은 실행되지 않은 에이전트가 아니라 CLI 초기화 과정에 귀속됩니다. <code>verify</code>는 기록된 산출물의 무결성을 확인하고 기록을 재구성합니다. 과학적 주장을 검증하거나 Go 결정을 승인하지는 않습니다. <code>replay</code>, 모델 디스패치, 자동 게이트 평가, 런타임 도구 샌드박스 강제는 구현되어 있지 않습니다. 에이전트 도구 목록과 작업 공간 지시는 설정일 뿐입니다.</p>
+<p>MIT 라이선스, 저작권자, 패키지 이름 변경, 게이트 출처 통합, 추가 전문가와 양식 구조는 병합 전에 소유자가 결정할 사항입니다.</p>
+    </article>
+  </main>
+  <footer>
+    <p>다음 파일에서 생성 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/README.ko.md">README.ko.md</a>
+    · <code>cursor/professionalize-repo-7b15</code>.
+    <a href="https://github.com/mrfeixiang/SyFlow-NDC">https://github.com/mrfeixiang/SyFlow-NDC</a>.</p>
+  </footer>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+  </script>
+</body>
+</html>

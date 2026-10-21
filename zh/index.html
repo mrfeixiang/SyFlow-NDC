@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SyFlow NDC Go/No-Go Platform</title>
+  <meta name="description" content="面向纳米抗体-药物偶联物档案的可追溯 Go/Hold/No-Go 决定。"/>
+  <link rel="canonical" href="https://mrfeixiang.github.io/SyFlow-NDC/zh/"/>
+  <link rel="alternate" hreflang="en" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="alternate" hreflang="ko" href="https://mrfeixiang.github.io/SyFlow-NDC/ko/"/>
+  <link rel="alternate" hreflang="zh-CN" href="https://mrfeixiang.github.io/SyFlow-NDC/zh/"/>
+  <link rel="alternate" hreflang="x-default" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --paper: #f6f1e7;
+      --card: #fffdf8;
+      --line: #e2d8c8;
+      --teal: #0f3d3e;
+      --teal-2: #1d6a62;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Source Sans 3", "Noto Sans KR", "Noto Sans SC", "Segoe UI", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--teal);
+      color: #f6f1e7;
+      padding: 1.4rem 1.25rem 2rem;
+    }
+    header .wrap, main {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .langs {
+      margin: 0 0 1.1rem;
+      font-size: 0.95rem;
+    }
+    .langs a { color: #f3d7a1; }
+    .langs [aria-current="page"] {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .kicker {
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: #c9e4df;
+      margin: 0 0 0.6rem;
+    }
+    h1 {
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
+      font-weight: 650;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.15;
+      margin: 0 0 0.75rem;
+    }
+    .pitch { margin: 0; max-width: 40rem; color: #efe6d6; }
+    header a { color: #f3d7a1; }
+    main { padding: 1.5rem 1.25rem 3rem; }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0.5rem 1.4rem 2rem;
+    }
+    h2, h3 {
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
+    }
+    h2 {
+      font-weight: 650;
+      font-size: 1.7rem;
+      margin-top: 2rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--line);
+    }
+    a { color: var(--teal-2); }
+    code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    code {
+      background: #f3ecdf;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+    pre {
+      background: #14222e;
+      color: #f6f1e7;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    pre.mermaid {
+      background: var(--card);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 0.45rem 0.6rem;
+      vertical-align: top;
+    }
+    th { color: var(--teal); }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    footer {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 1.25rem 2.5rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="langs" aria-label="语言"><a href="../" hreflang="en" lang="en">English</a> | <a href="../ko/" hreflang="ko" lang="ko">한국어</a> | <span aria-current="page" lang="zh-CN">简体中文</span></nav>
+      <p class="kicker">SyFlow · 纳米抗体-药物偶联物</p>
+      <h1>SyFlow NDC Go/No-Go Platform</h1>
+      <p class="pitch">一次只对一份纳米抗体-药物偶联物档案做出可追溯的 Go/Hold/No-Go 决定。</p>
+    </div>
+  </header>
+  <main>
+    <article>
+<p><a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/environment.yml"><img alt="Python 3.11" src="https://img.shields.io/badge/python-3.11-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml/badge.svg" /></a></p>
+<p>文档站点：<a href="https://mrfeixiang.github.io/SyFlow-NDC/zh/">https://mrfeixiang.github.io/SyFlow-NDC/zh/</a></p>
+<p>工作单元是一份 <strong>NDC 候选档案</strong>：适应症 × 表面抗原 × VHH 序列 × 偶联位点 × 连接子-载荷 × 生产批次。本平台沿用斯坦福 <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a> 的审阅与审计模式。</p>
+<h2 id="_1">流程</h2>
+<p><code>src/agents/registry.py</code> 中的 <code>AGENT_REGISTRY</code> 注册了 <strong>七个</strong> 智能体。<code>src/schemas/gate.py</code> 中的 <code>GATE_DEFINITIONS</code> 定义了 <strong>六个</strong> 闸门（G0–G5）。G3 与 G4 共用 <code>conjugation_payload</code>。CSO 是编排者（<code>is_orchestrator: True</code>），<code>build_specialist_agents</code> 不会调度它。科学审阅者只读（<code>Read</code>、<code>Glob</code>、<code>Grep</code>）。</p>
+<p><code>python -m src validate</code> <strong>不会</strong>调用模型。它读取档案、写入计划 DAG、创建 <code>work/&lt;agent&gt;/results/task.md</code>，并记录审计。<code>replay</code> 会打印尚未实现。</p>
+<pre class="mermaid">flowchart TD
+  query[&quot;Query and dossier YAML&quot;] --&gt; cso[&quot;CSO orchestrator&lt;br/&gt;no data-query tools&quot;]
+  cso --&gt; plan[&quot;build_validation_plan&quot;]
+  plan --&gt; g0[&quot;G0 target_patient&lt;br/&gt;always scheduled&quot;]
+  plan --&gt; g1[&quot;G1 nanobody_epitope&lt;br/&gt;parallel with G0 if dossier has vhh&quot;]
+  g1 --&gt; g2[&quot;G2 delivery&lt;br/&gt;only if is_surface_protein&quot;]
+  g2 --&gt; g34[&quot;G3 product and G4 function&lt;br/&gt;conjugation_payload&lt;br/&gt;only if dossier has conjugate&quot;]
+  g0 --&gt; g5[&quot;G5 translation_safety&lt;br/&gt;depends on every earlier step&quot;]
+  g1 --&gt; g5
+  g2 --&gt; g5
+  g34 --&gt; g5
+  g5 --&gt; rev[&quot;scientific_reviewer&lt;br/&gt;depends on every earlier step&quot;]
+  rev --&gt; decision[&quot;Run directory initialized&lt;br/&gt;Go / Hold / No-Go is not auto-decided&quot;]
+</pre>
+<p>已入库的 EGFRvIII、TAK1、RhoA、PNPLA3 档案没有顶层 <code>conjugate</code> 键，因此 <code>validate</code> 不会安排 <code>conjugation_payload</code>。仍可用 <code>gate</code> 打开 G3 和 G4，读取的是 <code>GATE_DEFINITIONS</code>。</p>
+<table>
+<thead>
+<tr>
+<th>闸门</th>
+<th>代码中的名称</th>
+<th>主要智能体</th>
+<th>No-Go 触发条件包括</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G0</td>
+<td>靶点与患者选择</td>
+<td><code>target_patient</code></td>
+<td>无膜可及性；治疗窗难以成立</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>VHH 结合与选择性</td>
+<td><code>nanobody_epitope</code></td>
+<td>在野生型细胞上失去选择性；没有可重复的结合</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>内化与转运</td>
+<td><code>delivery</code></td>
+<td>无内化；转运区室不符合预期</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>偶联物身份与稳定性</td>
+<td><code>conjugation_payload</code></td>
+<td>产物不稳定或定义不清；游离载荷过高</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>抗原依赖性杀伤</td>
+<td><code>conjugation_payload</code></td>
+<td>杀伤跟随游离载荷，或出现在靶点阴性细胞中</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>暴露与治疗窗</td>
+<td><code>translation_safety</code></td>
+<td>没有治疗窗；不可接受的肾毒性</td>
+</tr>
+</tbody>
+</table>
+<p><code>src/config/gates.yaml</code> 是一份带逐条注释的平行模板。CLI 使用的是 Python 表，而不是这份 YAML。</p>
+<h2 id="_2">功能</h2>
+<ul>
+<li>Pydantic 档案、主张与闸门模式（<code>src/schemas/</code>）。</li>
+<li>证据类型：<code>prediction</code>、<code>literature_evidence</code>、<code>retrospective_analysis</code>、<code>syflow_wetlab</code>、<code>independent_replication</code>。湿实验字段包含 ELN 与 LIMS 批次 ID。</li>
+<li>对照 <code>MANIFEST.json</code> 与 <code>trace.jsonl</code> 检查主张（<code>src/utils/claims.py</code>）。</li>
+<li>SHA-256 产物清单、只追加的追踪、DAG 计划校验（环检测），以及从追踪重建的来源。</li>
+<li>写入 <code>audit.json</code> 和运行摘要的会话审计（<code>src/utils/session_audit.py</code>）。</li>
+<li><code>src/mcp_servers/provenance_mcp/server.py</code> 中的来源 MCP 骨架。<code>python scripts/setup_mcp.py</code> 会写出 <code>mcp_config.json</code>。该服务器模块把自己说明为简化的 stdio 骨架。</li>
+<li><code>targets/</code> 下的各靶点档案，以及 CLI 会加载的 <code>src/config/targets.yaml</code> 靶点登记。支持的 <code>--target</code> 取值为 <code>pnpla3</code>、<code>rhoa</code>、<code>tak1</code>、<code>egfrviii</code>。</li>
+</ul>
+<h2 id="_3">快速开始</h2>
+<p><code>environment.yml</code> 会创建 <code>syflow-ndc</code> conda 环境（Python 3.11 及运行时依赖）。请以可编辑方式安装本仓库，这样 <code>syflow</code> 和 <code>python -m src</code> 会从仓库根目录解析档案路径。</p>
+<pre><code class="language-bash">conda env create -f environment.yml
+conda activate syflow-ndc
+pip install -e &quot;.[dev]&quot;
+cp .env.example .env   # set ANTHROPIC_API_KEY if you later wire a model client
+</code></pre>
+<p>幻灯片脚本还需要 matplotlib 和 python-pptx：</p>
+<pre><code class="language-bash">pip install -e &quot;.[slides]&quot;
+</code></pre>
+<h2 id="_4">用法</h2>
+<pre><code class="language-bash">syflow --help
+python -m src --help
+
+python -m src validate --target egfrviii --query &quot;Evaluate EGFRvIII as NDC target for GBM&quot;
+python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+python -m src verify --run-id &lt;RUN_ID&gt;
+python -m src replay --run-id &lt;RUN_ID&gt;
+
+python scripts/setup_mcp.py
+python scripts/smoke_check.py
+</code></pre>
+<p><code>validate</code> 和 <code>gate</code> 写入 <code>SYFLOW_RUNS_DIR</code>（默认 <code>&lt;workspace&gt;/runs</code>，已被 gitignore），编号为 <code>YYYYMMDD_&lt;target&gt;_NNN</code>。<code>verify</code> 重新加载该目录、重新计算清单哈希并重建来源。<code>replay</code> 打印尚未实现后退出。</p>
+<p><code>scripts/evaluate_egfr_vhh.py</code> 从硬编码目录 <code>/home/syslab/Desktop/AIDD SYStem</code> 读取设计表，并写入 <code>proteinbase_submission/</code>。这些设计输入不在本仓库中。已提交的报告 <code>proteinbase_submission/evaluation_report.txt</code> 记录了 49 个候选（PPI-Flow EGFR WT 20 个，OpenDDE/rfantibody EGFRvIII 19 个，ForceFlowAb/IgLM EGFRvIII 10 个），并由 <code>select_diverse_top20</code> 的 90% 一致性过滤保留 20 条序列。</p>
+<pre><code class="language-bash">python scripts/create_workflow_ppt.py    # writes figures/ and docs/slides/SyFlow_NDC_Workflow.pptx
+python scripts/create_korean_ppt.py      # writes docs/slides/SyFlow_NDC_Workflow_KR.pptx
+</code></pre>
+<h2 id="_5">靶点</h2>
+<p>下表分类来自 <code>src/config/targets.yaml</code> 和各档案。闸门行是档案中的 <code>gate_expectations</code>，不是实测结果。</p>
+<table>
+<thead>
+<tr>
+<th>靶点</th>
+<th>档案中的适应症</th>
+<th>表面蛋白</th>
+<th>档案记录的 NDC 路径</th>
+<th>CLI <code>--target</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EGFRvIII</td>
+<td>GBM、NSCLC、头颈 SCC</td>
+<td>是（<code>is_surface_protein: true</code>）</td>
+<td>直接 NDC；阶段 <code>binder_discovery</code>；靶点登记中的试点</td>
+<td><code>egfrviii</code></td>
+</tr>
+<tr>
+<td>TAK1 / MAP3K7</td>
+<td>炎症相关肿瘤、AML、胰腺癌、KRAS 突变肿瘤</td>
+<td>否（胞质激酶）</td>
+<td>间接：表面受体加上 TAK1 抑制剂载荷。G0 预期：hold</td>
+<td><code>tak1</code></td>
+</tr>
+<tr>
+<td>RhoA</td>
+<td>RhoA 通路激活的实体瘤（弥漫性胃癌、T 细胞淋巴瘤）</td>
+<td>否</td>
+<td>经表面受体的间接路径（EphA2、CXCR4 或整合素 αvβ3）。G0 预期：hold</td>
+<td><code>rhoa</code></td>
+</tr>
+<tr>
+<td>PNPLA3</td>
+<td>NASH / MAFLD</td>
+<td>否（脂滴蛋白）</td>
+<td>档案模态为 <code>small_molecule</code>。G0 预期：<code>no_go_for_ndc</code></td>
+<td><code>pnpla3</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>targets/tnfa/</code> 和 <code>targets/nk2r/</code> 还有其他档案。它们不是 CLI 的 <code>--target</code> 选项。</p>
+<h2 id="_6">仓库结构</h2>
+<pre><code>├── src/
+│   ├── cli.py                 # validate, gate, verify, replay
+│   ├── __main__.py            # python -m src
+│   ├── agents/                # registry plus system prompts
+│   ├── schemas/               # dossier, evidence, gates
+│   ├── utils/                 # trace, manifest, provenance, plan, audit, claims
+│   ├── config/                # gates.yaml (reference), targets.yaml (CLI registry)
+│   └── mcp_servers/           # provenance MCP skeleton
+├── scripts/
+│   ├── setup_mcp.py
+│   ├── evaluate_egfr_vhh.py
+│   ├── create_workflow_ppt.py
+│   ├── create_korean_ppt.py
+│   ├── smoke_check.py
+│   └── build_pages.py         # README → site/ for GitHub Pages
+├── targets/                   # per-target dossier YAML
+├── proteinbase_submission/    # committed VHH submission files and evaluation report
+├── figures/                   # architecture and workflow PNGs
+├── docs/slides/               # English and Korean decks
+├── README.md                  # English
+├── README.ko.md               # Korean
+├── README.zh-CN.md            # Simplified Chinese
+├── environment.yml
+├── pyproject.toml
+└── .claude/skills/            # evidence-citation, run-organization
+</code></pre>
+<h2 id="_7">图</h2>
+<p>由 <code>scripts/create_workflow_ppt.py</code> 生成（五名领域专家、CSO、审阅者）。</p>
+<p><img alt="智能体架构" src="../figures/agent_architecture.png" /></p>
+<p><img alt="闸门流程" src="../figures/gate_workflow.png" /></p>
+<p><img alt="靶点组合" src="../figures/target_portfolio.png" /></p>
+<p><img alt="EGFRvIII 试点布局" src="../figures/egfrviii_pilot.png" /></p>
+<h2 id="_8">引用</h2>
+<p>如果使用本软件，请引用 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/CITATION.cff"><code>CITATION.cff</code></a>。</p>
+<pre><code class="language-bibtex">@software{pei_2026_syflow_ndc,
+  author       = {Pei, Syang},
+  title        = {SyFlow NDC Go/No-Go Platform},
+  year         = {2026},
+  url          = {https://github.com/mrfeixiang/SyFlow-NDC},
+  license      = {MIT}
+}
+</code></pre>
+<h2 id="_9">致谢</h2>
+<p>架构改编自斯坦福 <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a> 的审阅与审计模式。本仓库中的 NDC 闸门定义、证据类型标签和湿实验来源字段是 SyFlow 自己的。</p>
+<h2 id="_10">许可证</h2>
+<p>以 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE">MIT License</a> 发布。Copyright (c) 2026 Syang Pei。</p>
+<h2 id="_11">运行时边界与安装路径</h2>
+<p><code>src/schemas/gate.py:GATE_DEFINITIONS</code> 是 CLI 和 MCP 当前的运行时来源。
+<code>src/config/gates.yaml</code> 是不可执行的参考模板，其标准 ID、触发条件和额外的证据类型注释与 Python 表不同。这些注释不会被强制执行。
+没有单独的科学政策审阅，不要更换来源。</p>
+<p>工作区在设置了 <code>SYFLOW_PROJECT_ROOT</code> 时使用该值；否则，可编辑安装使用源代码检出目录，wheel 安装使用当前工作目录。<code>SYFLOW_RUNS_DIR</code> 会同时覆盖 CLI 和 MCP 的可写运行位置。档案是外部输入，不打进 wheel：使用 <code>--dossier /path/to/dossier.yaml</code>，或把 <code>SYFLOW_PROJECT_ROOT</code> 指到含有 <code>targets/</code> 的工作区。缺失或格式错误的输入会在创建运行目录之前失败，不再默认把它当成表面靶点。</p>
+<p>TNF-alpha 和 NK2R 仍在受支持的靶点登记之外：已入库的档案是结合物/激动剂项目，没有 <code>is_surface_protein</code>，在套用细胞毒性 NDC 闸门之前需要先约定该模态自己的流程。只增加一个 CLI 选项并不构成验证。</p>
+<p><code>validate</code> 和 <code>gate</code> 只初始化待执行的计划。任务文件归属于 CLI 初始化过程，而不是从未运行的智能体。<code>verify</code> 检查已记录产物的完整性并重建记录；它不验证科学主张，也不批准 Go 决定。<code>replay</code>、模型调度、自动闸门评估和运行时工具沙箱都尚未实现。智能体工具列表和工作区说明只是配置。</p>
+<p>MIT 许可、版权人、包重命名、闸门来源统一，以及额外的专家或模态架构，都是合并前由仓库所有者决定的事项。</p>
+    </article>
+  </main>
+  <footer>
+    <p>生成自 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/README.zh-CN.md">README.zh-CN.md</a>
+    · <code>cursor/professionalize-repo-7b15</code>.
+    <a href="https://github.com/mrfeixiang/SyFlow-NDC">https://github.com/mrfeixiang/SyFlow-NDC</a>.</p>
+  </footer>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+  </script>
+</body>
+</html>

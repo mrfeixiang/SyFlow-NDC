@@ -6,9 +6,13 @@
   <title>SyFlow NDC Go/No-Go Platform</title>
   <meta name="description" content="Provenance-first Go/Hold/No-Go decisions for nanobody-drug conjugate dossiers."/>
   <link rel="canonical" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="alternate" hreflang="en" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="alternate" hreflang="ko" href="https://mrfeixiang.github.io/SyFlow-NDC/ko/"/>
+  <link rel="alternate" hreflang="zh-CN" href="https://mrfeixiang.github.io/SyFlow-NDC/zh/"/>
+  <link rel="alternate" hreflang="x-default" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --ink: #1c1915;
@@ -24,18 +28,29 @@
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font-family: "Source Sans 3", "Segoe UI", sans-serif;
+      font-family: "Source Sans 3", "Noto Sans KR", "Noto Sans SC", "Segoe UI", sans-serif;
       font-size: 1.05rem;
       line-height: 1.6;
     }
     header {
       background: var(--teal);
       color: #f6f1e7;
-      padding: 2.5rem 1.25rem 2rem;
+      padding: 1.4rem 1.25rem 2rem;
     }
     header .wrap, main {
       max-width: 880px;
       margin: 0 auto;
+    }
+    .langs {
+      margin: 0 0 1.1rem;
+      font-size: 0.95rem;
+    }
+    .langs a { color: #f3d7a1; }
+    .langs [aria-current="page"] {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
     }
     .kicker {
       letter-spacing: 0.14em;
@@ -45,7 +60,7 @@
       margin: 0 0 0.6rem;
     }
     h1 {
-      font-family: Newsreader, Georgia, serif;
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
       font-weight: 650;
       font-size: clamp(2rem, 4vw, 3.1rem);
       line-height: 1.15;
@@ -59,15 +74,16 @@
       border: 1px solid var(--line);
       padding: 0.5rem 1.4rem 2rem;
     }
+    h2, h3 {
+      font-family: Newsreader, "Noto Sans KR", "Noto Sans SC", Georgia, serif;
+    }
     h2 {
-      font-family: Newsreader, Georgia, serif;
       font-weight: 650;
       font-size: 1.7rem;
       margin-top: 2rem;
       padding-top: 0.4rem;
       border-top: 1px solid var(--line);
     }
-    h3 { font-family: Newsreader, Georgia, serif; }
     a { color: var(--teal-2); }
     code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
     code {
@@ -116,13 +132,14 @@
 <body>
   <header>
     <div class="wrap">
+      <nav class="langs" aria-label="Language"><span aria-current="page" lang="en">English</span> | <a href="ko/" hreflang="ko" lang="ko">한국어</a> | <a href="zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a></nav>
       <p class="kicker">SyFlow · Nanobody-drug conjugates</p>
       <h1>SyFlow NDC Go/No-Go Platform</h1>
       <p class="pitch">Provenance-first Go/Hold/No-Go decisions for one nanobody-drug conjugate dossier at a time.</p>
     </div>
   </header>
   <main>
-    <article class="markdown-body">
+    <article>
 <p><a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
 <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/environment.yml"><img alt="Python 3.11" src="https://img.shields.io/badge/python-3.11-blue.svg" /></a>
 <a href="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml/badge.svg" /></a></p>
@@ -296,6 +313,9 @@ python scripts/create_korean_ppt.py      # writes docs/slides/SyFlow_NDC_Workflo
 ├── proteinbase_submission/    # committed VHH submission files and evaluation report
 ├── figures/                   # architecture and workflow PNGs
 ├── docs/slides/               # English and Korean decks
+├── README.md                  # English
+├── README.ko.md               # Korean
+├── README.zh-CN.md            # Simplified Chinese
 ├── environment.yml
 ├── pyproject.toml
 └── .claude/skills/            # evidence-citation, run-organization
@@ -345,8 +365,8 @@ specialist/modality architecture remain owner decisions before merge.</p>
   </main>
   <footer>
     <p>Built from <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/README.md">README.md</a>
-    on <code>cursor/professionalize-repo-7b15</code>.
-    Source: <a href="https://github.com/mrfeixiang/SyFlow-NDC">https://github.com/mrfeixiang/SyFlow-NDC</a>.</p>
+    · <code>cursor/professionalize-repo-7b15</code>.
+    <a href="https://github.com/mrfeixiang/SyFlow-NDC">https://github.com/mrfeixiang/SyFlow-NDC</a>.</p>
   </footer>
   <script type="module">
     import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
