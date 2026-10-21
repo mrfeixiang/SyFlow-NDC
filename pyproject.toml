@@ -45,6 +45,7 @@ syflow = "src.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/mrfeixiang/SyFlow-NDC"
+Documentation = "https://mrfeixiang.github.io/SyFlow-NDC/"
 Repository = "https://github.com/mrfeixiang/SyFlow-NDC"
 Changelog = "https://github.com/mrfeixiang/SyFlow-NDC/blob/main/CHANGELOG.md"
 

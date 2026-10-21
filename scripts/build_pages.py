@@ -62,6 +62,11 @@ def _render_readme(source_ref: str) -> str:
     for name in REPO_FILES:
         body = body.replace(f'href="{name}"', f'href="{blob}/{name}"')
     body = re.sub(r"^<h1[^>]*>.*?</h1>\s*", "", body, count=1, flags=re.S)
+    pitch = (
+        "Provenance-first Go/Hold/No-Go decisions for one "
+        "nanobody-drug conjugate dossier at a time."
+    )
+    body = re.sub(rf"^<p>{re.escape(pitch)}</p>\s*", "", body, count=1)
     return body
 
 
