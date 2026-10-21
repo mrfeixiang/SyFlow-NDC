@@ -10,7 +10,7 @@ import json
 import sys
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MCP_DIR = PROJECT_ROOT / "src" / "mcp_servers"
 
 

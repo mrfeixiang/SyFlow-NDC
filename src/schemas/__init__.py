@@ -1,6 +1,6 @@
-from .evidence import EvidenceType, EvidenceItem, Claim
-from .dossier import NDCDossier, TargetProfile, VHHProfile, LinkerPayload, ConjugateProduct
-from .gate import GateID, GateDecision, GateVerdict, GateThreshold
+from .dossier import ConjugateProduct, LinkerPayload, NDCDossier, TargetProfile, VHHProfile
+from .evidence import Claim, EvidenceItem, EvidenceType
+from .gate import GateDecision, GateID, GateThreshold, GateVerdict
 
 __all__ = [
     "EvidenceType", "EvidenceItem", "Claim",

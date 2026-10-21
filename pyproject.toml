@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syflow-ndc"
+version = "0.1.0"
+description = "Provenance-first Go/No-Go decision platform for nanobody-drug conjugate dossiers."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Syang Pei" }]
+keywords = ["nanobody", "drug-conjugate", "target-validation", "provenance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "pyyaml",
+    "jsonschema",
+    "networkx",
+    "pandas",
+    "numpy",
+    "requests",
+    "jinja2",
+    "rich",
+    "click",
+    "anthropic>=0.40.0",
+    "claude-agent-sdk>=0.1.0",
+    "pydantic>=2.0",
+    "gradio>=4.0",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.6", "build"]
+slides = ["matplotlib", "python-pptx"]
+pages = ["markdown>=3.5"]
+
+[project.scripts]
+syflow = "src.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/mrfeixiang/SyFlow-NDC"
+Documentation = "https://mrfeixiang.github.io/SyFlow-NDC/"
+Repository = "https://github.com/mrfeixiang/SyFlow-NDC"
+Changelog = "https://github.com/mrfeixiang/SyFlow-NDC/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+src = ["agents/*/system_prompt.md", "config/*.yaml"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/cli.py" = ["E402"]
+"src/mcp_servers/provenance_mcp/server.py" = ["E402"]
+"scripts/create_workflow_ppt.py" = ["E402"]
+"scripts/smoke_check.py" = ["E402"]

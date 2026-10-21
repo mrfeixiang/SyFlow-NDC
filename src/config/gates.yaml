@@ -1,3 +1,6 @@
+# REFERENCE ONLY: not loaded by CLI or MCP. Runtime rules: src/schemas/gate.py.
+# Criterion IDs/triggers differ; do not use this template as an executable policy.
+# Unification and evidence-type enforcement require owner review.
 # SyFlow NDC Go/No-Go Gate Definitions
 # Thresholds here are TEMPLATES — actual thresholds must be set per-experiment
 # BEFORE the experiment, based on assay variability, indication, and reference conjugate.

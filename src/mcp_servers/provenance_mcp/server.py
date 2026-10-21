@@ -14,7 +14,6 @@ the full MCP protocol over stdio.
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -22,15 +21,15 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.utils.plan_runner import PlanRunner, validate_plan
+from src.schemas.evidence import Claim, EvidenceItem, EvidenceKind, EvidenceType
+from src.schemas.gate import GATE_DEFINITIONS, GateID
+from src.utils.claims import validate_claims
+from src.utils.paths import runs_directory
+from src.utils.plan_runner import PlanRunner
 from src.utils.run_manifest import RunManifest
 from src.utils.trace_logger import TraceLogger
-from src.utils.claims import validate_claims
-from src.schemas.evidence import Claim, EvidenceItem, EvidenceType, EvidenceKind
-from src.schemas.gate import GATE_DEFINITIONS, GateID
 
-
-RUNS_DIR = Path(os.getenv("SYFLOW_RUNS_DIR", PROJECT_ROOT / "runs"))
+RUNS_DIR = runs_directory()
 
 
 class ProvenanceServer:

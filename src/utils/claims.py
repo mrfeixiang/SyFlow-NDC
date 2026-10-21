@@ -5,10 +5,9 @@ Claims for wet-lab measurements require ELN/LIMS batch provenance.
 """
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
-from ..schemas.evidence import Claim, EvidenceType, VerificationStatus
+from ..schemas.evidence import Claim, VerificationStatus
 from .run_manifest import RunManifest
 from .trace_logger import TraceLogger
 
