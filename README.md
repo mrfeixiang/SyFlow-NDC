@@ -6,6 +6,8 @@ Provenance-first Go/Hold/No-Go decisions for one nanobody-drug conjugate dossier
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](environment.yml)
 [![CI](https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml/badge.svg)](https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml)
 
+Documentation site: <https://mrfeixiang.github.io/SyFlow-NDC/>
+
 The unit of work is one **NDC candidate dossier**: indication × surface antigen × VHH sequence × conjugation site × linker-payload × manufacturing batch. The platform adapts the review-and-audit pattern from Stanford's [Virtual Biotech](https://github.com/harrisongzhang/TheVirtualBiotech).
 
 ## Pipeline
@@ -123,7 +125,8 @@ Classifications below are taken from `src/config/targets.yaml` and each dossier.
 │   ├── evaluate_egfr_vhh.py
 │   ├── create_workflow_ppt.py
 │   ├── create_korean_ppt.py
-│   └── smoke_check.py
+│   ├── smoke_check.py
+│   └── build_pages.py         # README → site/ for GitHub Pages
 ├── targets/                   # per-target dossier YAML
 ├── proteinbase_submission/    # committed VHH submission files and evaluation report
 ├── figures/                   # architecture and workflow PNGs

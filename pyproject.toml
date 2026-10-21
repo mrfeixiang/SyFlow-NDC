@@ -38,6 +38,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["ruff>=0.6", "build"]
 slides = ["matplotlib", "python-pptx"]
+pages = ["markdown>=3.5"]
 
 [project.scripts]
 syflow = "src.cli:main"

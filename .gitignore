@@ -30,3 +30,6 @@ Thumbs.db
 
 # Tool caches
 .ruff_cache/
+
+# Generated GitHub Pages output
+site/
