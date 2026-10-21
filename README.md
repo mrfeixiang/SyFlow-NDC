@@ -1,3 +1,5 @@
+English | [한국어](README.ko.md) | [简体中文](README.zh-CN.md)
+
 # SyFlow NDC Go/No-Go Platform
 
 Provenance-first Go/Hold/No-Go decisions for one nanobody-drug conjugate dossier at a time.
@@ -131,6 +133,9 @@ Classifications below are taken from `src/config/targets.yaml` and each dossier.
 ├── proteinbase_submission/    # committed VHH submission files and evaluation report
 ├── figures/                   # architecture and workflow PNGs
 ├── docs/slides/               # English and Korean decks
+├── README.md                  # English
+├── README.ko.md               # Korean
+├── README.zh-CN.md            # Simplified Chinese
 ├── environment.yml
 ├── pyproject.toml
 └── .claude/skills/            # evidence-citation, run-organization
