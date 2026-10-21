@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SyFlow NDC Go/No-Go Platform</title>
+  <meta name="description" content="Provenance-first Go/Hold/No-Go decisions for nanobody-drug conjugate dossiers."/>
+  <link rel="canonical" href="https://mrfeixiang.github.io/SyFlow-NDC/"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --paper: #f6f1e7;
+      --card: #fffdf8;
+      --line: #e2d8c8;
+      --teal: #0f3d3e;
+      --teal-2: #1d6a62;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Source Sans 3", "Segoe UI", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--teal);
+      color: #f6f1e7;
+      padding: 2.5rem 1.25rem 2rem;
+    }
+    header .wrap, main {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .kicker {
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: #c9e4df;
+      margin: 0 0 0.6rem;
+    }
+    h1 {
+      font-family: Newsreader, Georgia, serif;
+      font-weight: 650;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.15;
+      margin: 0 0 0.75rem;
+    }
+    .pitch { margin: 0; max-width: 40rem; color: #efe6d6; }
+    header a { color: #f3d7a1; }
+    main { padding: 1.5rem 1.25rem 3rem; }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0.5rem 1.4rem 2rem;
+    }
+    h2 {
+      font-family: Newsreader, Georgia, serif;
+      font-weight: 650;
+      font-size: 1.7rem;
+      margin-top: 2rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--line);
+    }
+    h3 { font-family: Newsreader, Georgia, serif; }
+    a { color: var(--teal-2); }
+    code, pre { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    code {
+      background: #f3ecdf;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+    pre {
+      background: #14222e;
+      color: #f6f1e7;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    pre.mermaid {
+      background: var(--card);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      display: block;
+      overflow-x: auto;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      padding: 0.45rem 0.6rem;
+      vertical-align: top;
+    }
+    th { color: var(--teal); }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    footer {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 1.25rem 2.5rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="kicker">SyFlow · Nanobody-drug conjugates</p>
+      <h1>SyFlow NDC Go/No-Go Platform</h1>
+      <p class="pitch">Provenance-first Go/Hold/No-Go decisions for one nanobody-drug conjugate dossier at a time.</p>
+    </div>
+  </header>
+  <main>
+    <article class="markdown-body">
+<p>Provenance-first Go/Hold/No-Go decisions for one nanobody-drug conjugate dossier at a time.</p>
+<p><a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/environment.yml"><img alt="Python 3.11" src="https://img.shields.io/badge/python-3.11-blue.svg" /></a>
+<a href="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mrfeixiang/SyFlow-NDC/actions/workflows/ci.yml/badge.svg" /></a></p>
+<p>Documentation site: <a href="https://mrfeixiang.github.io/SyFlow-NDC/">https://mrfeixiang.github.io/SyFlow-NDC/</a></p>
+<p>The unit of work is one <strong>NDC candidate dossier</strong>: indication × surface antigen × VHH sequence × conjugation site × linker-payload × manufacturing batch. The platform adapts the review-and-audit pattern from Stanford's <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a>.</p>
+<h2 id="pipeline">Pipeline</h2>
+<p><code>AGENT_REGISTRY</code> in <code>src/agents/registry.py</code> registers <strong>seven</strong> agents. <code>GATE_DEFINITIONS</code> in <code>src/schemas/gate.py</code> defines <strong>six</strong> gates (G0–G5). G3 and G4 share <code>conjugation_payload</code>. The CSO is an orchestrator (<code>is_orchestrator: True</code>) and is omitted by <code>build_specialist_agents</code>. The scientific reviewer is read-only (<code>Read</code>, <code>Glob</code>, <code>Grep</code>).</p>
+<p><code>python -m src validate</code> does <strong>not</strong> call a model. It loads the dossier, writes a plan DAG, creates <code>work/&lt;agent&gt;/results/task.md</code>, and records an audit. <code>replay</code> prints that replay is not implemented.</p>
+<pre class="mermaid">flowchart TD
+  query[&quot;Query and dossier YAML&quot;] --&gt; cso[&quot;CSO orchestrator&lt;br/&gt;no data-query tools&quot;]
+  cso --&gt; plan[&quot;build_validation_plan&quot;]
+  plan --&gt; g0[&quot;G0 target_patient&lt;br/&gt;always scheduled&quot;]
+  plan --&gt; g1[&quot;G1 nanobody_epitope&lt;br/&gt;parallel with G0 if dossier has vhh&quot;]
+  g1 --&gt; g2[&quot;G2 delivery&lt;br/&gt;only if is_surface_protein&quot;]
+  g2 --&gt; g34[&quot;G3 product and G4 function&lt;br/&gt;conjugation_payload&lt;br/&gt;only if dossier has conjugate&quot;]
+  g0 --&gt; g5[&quot;G5 translation_safety&lt;br/&gt;depends on every earlier step&quot;]
+  g1 --&gt; g5
+  g2 --&gt; g5
+  g34 --&gt; g5
+  g5 --&gt; rev[&quot;scientific_reviewer&lt;br/&gt;depends on every earlier step&quot;]
+  rev --&gt; decision[&quot;Run directory initialized&lt;br/&gt;Go / Hold / No-Go is not auto-decided&quot;]
+</pre>
+<p>Checked-in dossiers for EGFRvIII, TAK1, RhoA, and PNPLA3 have no top-level <code>conjugate</code> key, so <code>validate</code> does not schedule <code>conjugation_payload</code>. G3 and G4 can still be opened with <code>gate</code>, which reads <code>GATE_DEFINITIONS</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Name in code</th>
+<th>Primary agent</th>
+<th>No-Go triggers include</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G0</td>
+<td>Target and Patient Selection</td>
+<td><code>target_patient</code></td>
+<td>No membrane accessibility; therapeutic window implausible</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>VHH Binding and Selectivity</td>
+<td><code>nanobody_epitope</code></td>
+<td>Selectivity lost on WT cells; no reproducible binding</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>Internalization and Trafficking</td>
+<td><code>delivery</code></td>
+<td>No internalization; wrong trafficking compartment</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>Conjugate Identity and Stability</td>
+<td><code>conjugation_payload</code></td>
+<td>Unstable or poorly defined product; high free payload</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>Antigen-Dependent Killing</td>
+<td><code>conjugation_payload</code></td>
+<td>Killing tracks free payload or target-negative cells</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>Exposure and Therapeutic Window</td>
+<td><code>translation_safety</code></td>
+<td>No therapeutic window; unacceptable kidney toxicity</td>
+</tr>
+</tbody>
+</table>
+<p>A parallel template with per-criterion notes lives in <code>src/config/gates.yaml</code>. The CLI uses the Python table, not that YAML file.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Pydantic dossier, claim, and gate schemas (<code>src/schemas/</code>).</li>
+<li>Evidence types: <code>prediction</code>, <code>literature_evidence</code>, <code>retrospective_analysis</code>, <code>syflow_wetlab</code>, <code>independent_replication</code>. Wet-lab fields include ELN and LIMS batch IDs.</li>
+<li>Claim checks against <code>MANIFEST.json</code> and <code>trace.jsonl</code> (<code>src/utils/claims.py</code>).</li>
+<li>SHA-256 artifact manifest, append-only trace, DAG plan validation (cycle detection), and provenance reconstructed from the trace.</li>
+<li>Session audit that writes <code>audit.json</code> and a run summary (<code>src/utils/session_audit.py</code>).</li>
+<li>Provenance MCP skeleton at <code>src/mcp_servers/provenance_mcp/server.py</code>. <code>python scripts/setup_mcp.py</code> writes <code>mcp_config.json</code>. The server module documents itself as a simplified stdio skeleton.</li>
+<li>Per-target dossiers under <code>targets/</code>, plus a target registry in <code>src/config/targets.yaml</code> loaded by the CLI. Supported <code>--target</code> choices are: <code>pnpla3</code>, <code>rhoa</code>, <code>tak1</code>, <code>egfrviii</code>.</li>
+</ul>
+<h2 id="quickstart">Quickstart</h2>
+<p><code>environment.yml</code> creates the <code>syflow-ndc</code> conda environment (Python 3.11 and the runtime dependencies). Install this repository in editable mode so the <code>syflow</code> command and <code>python -m src</code> resolve dossier paths from the repo root.</p>
+<pre><code class="language-bash">conda env create -f environment.yml
+conda activate syflow-ndc
+pip install -e &quot;.[dev]&quot;
+cp .env.example .env   # set ANTHROPIC_API_KEY if you later wire a model client
+</code></pre>
+<p>Slide builders additionally need matplotlib and python-pptx:</p>
+<pre><code class="language-bash">pip install -e &quot;.[slides]&quot;
+</code></pre>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-bash">syflow --help
+python -m src --help
+
+python -m src validate --target egfrviii --query &quot;Evaluate EGFRvIII as NDC target for GBM&quot;
+python -m src gate --target egfrviii --gate G1 --dossier targets/egfrviii/dossier.yaml
+python -m src verify --run-id &lt;RUN_ID&gt;
+python -m src replay --run-id &lt;RUN_ID&gt;
+
+python scripts/setup_mcp.py
+python scripts/smoke_check.py
+</code></pre>
+<p><code>validate</code> and <code>gate</code> write under <code>SYFLOW_RUNS_DIR</code> (default <code>&lt;workspace&gt;/runs</code>, gitignored) using ids <code>YYYYMMDD_&lt;target&gt;_NNN</code>. <code>verify</code> reloads that directory, re-hashes the manifest, and reconstructs provenance. <code>replay</code> exits after printing that it is not implemented.</p>
+<p><code>scripts/evaluate_egfr_vhh.py</code> reads design tables from the hard-coded directory <code>/home/syslab/Desktop/AIDD SYStem</code> and writes <code>proteinbase_submission/</code>. Those design inputs are not in this repository. The committed report <code>proteinbase_submission/evaluation_report.txt</code> records 49 candidates loaded (20 PPI-Flow EGFR WT, 19 OpenDDE/rfantibody EGFRvIII, 10 ForceFlowAb/IgLM EGFRvIII) and 20 sequences kept by the 90% identity filter in <code>select_diverse_top20</code>.</p>
+<pre><code class="language-bash">python scripts/create_workflow_ppt.py    # writes figures/ and docs/slides/SyFlow_NDC_Workflow.pptx
+python scripts/create_korean_ppt.py      # writes docs/slides/SyFlow_NDC_Workflow_KR.pptx
+</code></pre>
+<h2 id="targets">Targets</h2>
+<p>Classifications below are taken from <code>src/config/targets.yaml</code> and each dossier. Gate rows are dossier <code>gate_expectations</code>, not measured outcomes.</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Indication in the dossier</th>
+<th>Surface protein</th>
+<th>NDC path recorded in the dossier</th>
+<th>CLI <code>--target</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EGFRvIII</td>
+<td>GBM, NSCLC, head and neck SCC</td>
+<td>Yes (<code>is_surface_protein: true</code>)</td>
+<td>Direct NDC; stage <code>binder_discovery</code>; pilot in the target registry</td>
+<td><code>egfrviii</code></td>
+</tr>
+<tr>
+<td>TAK1 / MAP3K7</td>
+<td>Inflammatory cancers, AML, pancreatic cancer, KRAS-mutant tumors</td>
+<td>No (cytoplasmic kinase)</td>
+<td>Indirect: surface receptor plus a TAK1-inhibitor payload. G0 expectation: hold</td>
+<td><code>tak1</code></td>
+</tr>
+<tr>
+<td>RhoA</td>
+<td>Solid tumors with RhoA pathway activation (diffuse gastric, T-cell lymphoma)</td>
+<td>No</td>
+<td>Indirect via a surface receptor (EphA2, CXCR4, or integrin αvβ3). G0 expectation: hold</td>
+<td><code>rhoa</code></td>
+</tr>
+<tr>
+<td>PNPLA3</td>
+<td>NASH / MAFLD</td>
+<td>No (lipid-droplet protein)</td>
+<td>Dossier modality is <code>small_molecule</code>. G0 expectation: <code>no_go_for_ndc</code></td>
+<td><code>pnpla3</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>targets/tnfa/</code> and <code>targets/nk2r/</code> contain additional dossiers. They are not CLI <code>--target</code> choices.</p>
+<h2 id="repository-layout">Repository layout</h2>
+<pre><code>├── src/
+│   ├── cli.py                 # validate, gate, verify, replay
+│   ├── __main__.py            # python -m src
+│   ├── agents/                # registry plus system prompts
+│   ├── schemas/               # dossier, evidence, gates
+│   ├── utils/                 # trace, manifest, provenance, plan, audit, claims
+│   ├── config/                # gates.yaml (reference), targets.yaml (CLI registry)
+│   └── mcp_servers/           # provenance MCP skeleton
+├── scripts/
+│   ├── setup_mcp.py
+│   ├── evaluate_egfr_vhh.py
+│   ├── create_workflow_ppt.py
+│   ├── create_korean_ppt.py
+│   ├── smoke_check.py
+│   └── build_pages.py         # README → site/ for GitHub Pages
+├── targets/                   # per-target dossier YAML
+├── proteinbase_submission/    # committed VHH submission files and evaluation report
+├── figures/                   # architecture and workflow PNGs
+├── docs/slides/               # English and Korean decks
+├── environment.yml
+├── pyproject.toml
+└── .claude/skills/            # evidence-citation, run-organization
+</code></pre>
+<h2 id="figures">Figures</h2>
+<p>Generated by <code>scripts/create_workflow_ppt.py</code> (five domain specialists, CSO, reviewer).</p>
+<p><img alt="Agent architecture" src="figures/agent_architecture.png" /></p>
+<p><img alt="Gate workflow" src="figures/gate_workflow.png" /></p>
+<p><img alt="Target portfolio" src="figures/target_portfolio.png" /></p>
+<p><img alt="EGFRvIII pilot layout" src="figures/egfrviii_pilot.png" /></p>
+<h2 id="citation">Citation</h2>
+<p>If you use this software, cite <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/CITATION.cff"><code>CITATION.cff</code></a>.</p>
+<pre><code class="language-bibtex">@software{pei_2026_syflow_ndc,
+  author       = {Pei, Syang},
+  title        = {SyFlow NDC Go/No-Go Platform},
+  year         = {2026},
+  url          = {https://github.com/mrfeixiang/SyFlow-NDC},
+  license      = {MIT}
+}
+</code></pre>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Architecture adapted from Stanford's <a href="https://github.com/harrisongzhang/TheVirtualBiotech">Virtual Biotech</a> review-and-audit pattern. NDC gate definitions, the evidence-type labels, and wet-lab provenance fields in this repository are SyFlow-specific.</p>
+<h2 id="license">License</h2>
+<p>Released under the <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/LICENSE">MIT License</a>. Copyright (c) 2026 Syang Pei.</p>
+<h2 id="runtime-boundaries-and-installed-paths">Runtime boundaries and installed paths</h2>
+<p><code>src/schemas/gate.py:GATE_DEFINITIONS</code> is the current runtime source for both CLI and MCP.
+<code>src/config/gates.yaml</code> is a non-executable reference template with differing criterion IDs,
+triggers and additional evidence-type annotations. Those annotations are not enforced.
+Do not switch sources without a separate scientific policy review.</p>
+<p>The workspace is <code>SYFLOW_PROJECT_ROOT</code> when set, otherwise the source checkout for editable
+installs, otherwise the current working directory for wheel installs. <code>SYFLOW_RUNS_DIR</code>
+overrides the writable run location for both CLI and MCP. Dossiers are external inputs,
+not bundled in the wheel: use <code>--dossier /path/to/dossier.yaml</code> or point
+<code>SYFLOW_PROJECT_ROOT</code> at a workspace containing <code>targets/</code>. Missing or malformed inputs fail
+before creating a run; they no longer silently assume a surface target.</p>
+<p>TNF-alpha and NK2R remain outside the supported target registry: their checked-in dossiers
+are binder/agonist campaigns, lack <code>is_surface_protein</code>, and need an agreed modality-specific
+workflow before applying cytotoxic NDC gates. Adding a CLI choice alone is not validation.</p>
+<p><code>validate</code> and <code>gate</code> initialize pending plans only. Task files are attributed to the CLI
+initializer, not to agents that never ran. <code>verify</code> checks recorded artifact integrity and
+reconstructs records; it does not validate scientific claims or authorize a Go decision.
+<code>replay</code>, model dispatch, automatic gate evaluation and runtime tool sandbox enforcement
+are not implemented. Agent tool lists and workspace instructions are configuration only.</p>
+<p>MIT licensing, copyright holder, package renaming, gate-source unification and additional
+specialist/modality architecture remain owner decisions before merge.</p>
+    </article>
+  </main>
+  <footer>
+    <p>Built from <a href="https://github.com/mrfeixiang/SyFlow-NDC/blob/cursor/professionalize-repo-7b15/README.md">README.md</a>
+    on <code>cursor/professionalize-repo-7b15</code>.
+    Source: <a href="https://github.com/mrfeixiang/SyFlow-NDC">https://github.com/mrfeixiang/SyFlow-NDC</a>.</p>
+  </footer>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+  </script>
+</body>
+</html>
