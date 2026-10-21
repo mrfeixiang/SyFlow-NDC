@@ -8,7 +8,7 @@ The unit of work is one **NDC candidate dossier**:
 *indication × surface antigen × VHH sequence × conjugation site × linker-payload × manufacturing batch*
 
 ## Architecture
-- **6 specialist agents** + 1 CSO orchestrator + 1 scientific reviewer
+- **5 domain specialist agents** + 1 CSO orchestrator + 1 scientific reviewer (7 total; G3/G4 share conjugation_payload)
 - **6 gates** (G0-G5) with Go/Hold/No-Go decisions
 - **Provenance-first**: every claim must cite verifiable evidence
 - **Evidence types**: prediction, literature_evidence, retrospective_analysis, syflow_wetlab, independent_replication

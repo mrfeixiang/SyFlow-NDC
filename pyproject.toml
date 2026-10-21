@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.6"]
+dev = ["ruff>=0.6", "build"]
 slides = ["matplotlib", "python-pptx"]
 
 [project.scripts]

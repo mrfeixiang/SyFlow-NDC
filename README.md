@@ -51,7 +51,7 @@ A parallel template with per-criterion notes lives in `src/config/gates.yaml`. T
 - SHA-256 artifact manifest, append-only trace, DAG plan validation (cycle detection), and provenance reconstructed from the trace.
 - Session audit that writes `audit.json` and a run summary (`src/utils/session_audit.py`).
 - Provenance MCP skeleton at `src/mcp_servers/provenance_mcp/server.py`. `python scripts/setup_mcp.py` writes `mcp_config.json`. The server module documents itself as a simplified stdio skeleton.
-- Per-target dossiers under `targets/`, plus a target registry in `src/config/targets.yaml` that the CLI does not import. CLI `--target` choices are hardcoded: `pnpla3`, `rhoa`, `tak1`, `egfrviii`.
+- Per-target dossiers under `targets/`, plus a target registry in `src/config/targets.yaml` loaded by the CLI. Supported `--target` choices are: `pnpla3`, `rhoa`, `tak1`, `egfrviii`.
 
 ## Quickstart
 
@@ -85,7 +85,7 @@ python scripts/setup_mcp.py
 python scripts/smoke_check.py
 ```
 
-`validate` and `gate` write under `SYFLOW_RUNS_DIR` (default `./runs`, gitignored) using ids `YYYYMMDD_<target>_NNN`. `verify` reloads that directory, re-hashes the manifest, and reconstructs provenance. `replay` exits after printing that it is not implemented.
+`validate` and `gate` write under `SYFLOW_RUNS_DIR` (default `<workspace>/runs`, gitignored) using ids `YYYYMMDD_<target>_NNN`. `verify` reloads that directory, re-hashes the manifest, and reconstructs provenance. `replay` exits after printing that it is not implemented.
 
 `scripts/evaluate_egfr_vhh.py` reads design tables from the hard-coded directory `/home/syslab/Desktop/AIDD SYStem` and writes `proteinbase_submission/`. Those design inputs are not in this repository. The committed report `proteinbase_submission/evaluation_report.txt` records 49 candidates loaded (20 PPI-Flow EGFR WT, 19 OpenDDE/rfantibody EGFRvIII, 10 ForceFlowAb/IgLM EGFRvIII) and 20 sequences kept by the 90% identity filter in `select_diverse_top20`.
 
@@ -116,7 +116,7 @@ Classifications below are taken from `src/config/targets.yaml` and each dossier.
 │   ├── agents/                # registry plus system prompts
 │   ├── schemas/               # dossier, evidence, gates
 │   ├── utils/                 # trace, manifest, provenance, plan, audit, claims
-│   ├── config/                # gates.yaml, targets.yaml (not loaded by the CLI)
+│   ├── config/                # gates.yaml (reference), targets.yaml (CLI registry)
 │   └── mcp_servers/           # provenance MCP skeleton
 ├── scripts/
 │   ├── setup_mcp.py
@@ -166,3 +166,30 @@ Architecture adapted from Stanford's [Virtual Biotech](https://github.com/harris
 ## License
 
 Released under the [MIT License](LICENSE). Copyright (c) 2026 Syang Pei.
+
+## Runtime boundaries and installed paths
+
+`src/schemas/gate.py:GATE_DEFINITIONS` is the current runtime source for both CLI and MCP.
+`src/config/gates.yaml` is a non-executable reference template with differing criterion IDs,
+triggers and additional evidence-type annotations. Those annotations are not enforced.
+Do not switch sources without a separate scientific policy review.
+
+The workspace is `SYFLOW_PROJECT_ROOT` when set, otherwise the source checkout for editable
+installs, otherwise the current working directory for wheel installs. `SYFLOW_RUNS_DIR`
+overrides the writable run location for both CLI and MCP. Dossiers are external inputs,
+not bundled in the wheel: use `--dossier /path/to/dossier.yaml` or point
+`SYFLOW_PROJECT_ROOT` at a workspace containing `targets/`. Missing or malformed inputs fail
+before creating a run; they no longer silently assume a surface target.
+
+TNF-alpha and NK2R remain outside the supported target registry: their checked-in dossiers
+are binder/agonist campaigns, lack `is_surface_protein`, and need an agreed modality-specific
+workflow before applying cytotoxic NDC gates. Adding a CLI choice alone is not validation.
+
+`validate` and `gate` initialize pending plans only. Task files are attributed to the CLI
+initializer, not to agents that never ran. `verify` checks recorded artifact integrity and
+reconstructs records; it does not validate scientific claims or authorize a Go decision.
+`replay`, model dispatch, automatic gate evaluation and runtime tool sandbox enforcement
+are not implemented. Agent tool lists and workspace instructions are configuration only.
+
+MIT licensing, copyright holder, package renaming, gate-source unification and additional
+specialist/modality architecture remain owner decisions before merge.

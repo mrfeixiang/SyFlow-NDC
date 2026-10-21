@@ -14,27 +14,28 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from datetime import datetime
+from importlib.resources import files
 from pathlib import Path
 
 import yaml
 
-# Repository root (parent of the src package). Keeps dossier and run paths
-# stable whether the CLI is launched as `python -m src` or `python src/cli.py`.
+# Import root for direct script invocation; writable paths use utils.paths.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.agents.registry import AGENT_REGISTRY, build_specialist_agents
 from src.schemas.gate import GATE_DEFINITIONS, GateID
+from src.utils.paths import runs_directory, workspace_root
 from src.utils.plan_runner import PlanRunner, validate_plan
 from src.utils.provenance import Provenance
 from src.utils.run_manifest import RunManifest
 from src.utils.session_audit import SessionAudit
 
-RUNS_DIR = Path(os.getenv("SYFLOW_RUNS_DIR", PROJECT_ROOT / "runs"))
+RUNS_DIR = runs_directory()
+TARGETS = yaml.safe_load(files("src").joinpath("config/targets.yaml").read_text())["targets"]
 
 
 def generate_run_id(target: str) -> str:
@@ -61,14 +62,16 @@ def load_target_dossier(target: str, dossier_path: str | None = None) -> dict:
     if dossier_path:
         path = Path(dossier_path)
     else:
-        path = PROJECT_ROOT / "targets" / target / "dossier.yaml"
+        path = workspace_root() / TARGETS[target]["dossier"]
 
     if not path.exists():
-        print(f"Warning: Dossier not found at {path}, using defaults")
-        return {"target": target}
+        raise ValueError(f"Dossier not found: {path}. Supply --dossier or SYFLOW_PROJECT_ROOT.")
 
     with open(path) as f:
-        return yaml.safe_load(f)
+        dossier = yaml.safe_load(f)
+    if not isinstance(dossier, dict) or not isinstance(dossier.get("target_profile"), dict):
+        raise ValueError(f"Dossier must contain a target_profile mapping: {path}")
+    return dossier
 
 
 def build_validation_plan(target: str, dossier: dict) -> dict:
@@ -162,8 +165,9 @@ def build_validation_plan(target: str, dossier: dict) -> dict:
 
 
 def cmd_validate(args: argparse.Namespace) -> None:
-    """Run a full target validation."""
+    """Initialize a validation plan without executing agents or deciding gates."""
     target = args.target
+    dossier = load_target_dossier(target, args.dossier)
     run_id = generate_run_id(target)
     run_dir = create_run_directory(run_id)
 
@@ -171,9 +175,6 @@ def cmd_validate(args: argparse.Namespace) -> None:
     print(f"Run ID: {run_id}")
     print(f"Run directory: {run_dir}")
     print()
-
-    # Load dossier
-    dossier = load_target_dossier(target, args.dossier)
 
     # Save dossier to inputs
     with open(run_dir / "inputs" / "dossier.yaml", "w") as f:
@@ -190,15 +191,16 @@ def cmd_validate(args: argparse.Namespace) -> None:
 
     # Initialize audit
     audit = SessionAudit(run_dir, run_id)
+    audit.plan = PlanRunner.load(run_dir)
 
     # Build specialist agents
     agents = build_specialist_agents(run_dir)
     print(f"Agents ready: {[a['name'] for a in agents]}")
     print()
 
-    # Execute plan
+    # Prepare tasks without executing agents
     print("=" * 60)
-    print("PLAN EXECUTION")
+    print("PLAN INITIALIZATION (no model calls or gate decisions)")
     print("=" * 60)
 
     for group_idx, group in enumerate(plan["parallel_groups"]):
@@ -210,11 +212,10 @@ def cmd_validate(args: argparse.Namespace) -> None:
             agent_name = step["agent"]
             task = step["task"]
 
-            print(f"  → Dispatching {agent_name}: {task[:60]}...")
-            audit.on_agent_start(agent_name, task)
+            print(f"  Preparing task for {agent_name}: {task[:60]}...")
 
             # In a full implementation, this would dispatch to the Claude Agent SDK.
-            # For now, we create the workspace and record the dispatch.
+            # For now, only create the workspace and task description.
             agent_workspace = run_dir / "work" / agent_name / "results"
             agent_workspace.mkdir(parents=True, exist_ok=True)
 
@@ -225,8 +226,7 @@ def cmd_validate(args: argparse.Namespace) -> None:
                                 f"Gate: {AGENT_REGISTRY.get(agent_name, {}).get('description', '')}\n"
                                 f"Run: {run_id}\n")
 
-            audit.on_file_write(agent_name, str(task_file), "report", f"Task description for {agent_name}")
-            audit.on_agent_stop(agent_name, "dispatched")
+            audit.on_file_write("cli_initializer", str(task_file), "report", f"Task description for {agent_name}")
 
     # Query string for interactive execution
     query = args.query or f"Evaluate {target} as a target for nanobody-drug conjugate development"
@@ -241,9 +241,7 @@ def cmd_validate(args: argparse.Namespace) -> None:
     print("=" * 60)
     print(f"\nRun directory: {run_dir}")
     print(f"Query: {query}")
-    print("\nTo execute with Claude Agent SDK:")
-    print("  1. Set ANTHROPIC_API_KEY in .env")
-    print(f"  2. Run: claude --project {run_dir} \"{query}\"")
+    print("\nAgent SDK execution is not implemented; task files require a separate executor.")
     print("\nTo verify after completion:")
     print(f"  python -m src verify --run-id {run_id}")
 
@@ -302,6 +300,7 @@ def cmd_gate(args: argparse.Namespace) -> None:
     with open(run_dir / "inputs" / "dossier.yaml", "w") as f:
         yaml.dump(dossier, f, default_flow_style=False)
 
+    audit.plan = PlanRunner.load(run_dir)
     audit.finish_run("initialized")
     print(f"Gate assessment run initialized: {run_id}")
     print(f"Run directory: {run_dir}")
@@ -377,16 +376,16 @@ Examples:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # validate
-    p_val = subparsers.add_parser("validate", help="Run full target validation")
-    p_val.add_argument("--target", required=True, choices=["pnpla3", "rhoa", "tak1", "egfrviii"],
+    p_val = subparsers.add_parser("validate", help="Initialize a validation plan (no model execution)")
+    p_val.add_argument("--target", required=True, choices=sorted(TARGETS),
                        help="Target to validate")
     p_val.add_argument("--query", help="Analysis query (default: auto-generated)")
     p_val.add_argument("--dossier", help="Path to dossier YAML (default: targets/<target>/dossier.yaml)")
     p_val.set_defaults(func=cmd_validate)
 
     # gate
-    p_gate = subparsers.add_parser("gate", help="Assess a specific gate")
-    p_gate.add_argument("--target", required=True, choices=["pnpla3", "rhoa", "tak1", "egfrviii"])
+    p_gate = subparsers.add_parser("gate", help="Initialize a gate assessment (no verdict)")
+    p_gate.add_argument("--target", required=True, choices=sorted(TARGETS))
     p_gate.add_argument("--gate", required=True, choices=["G0", "G1", "G2", "G3", "G4", "G5"])
     p_gate.add_argument("--dossier", help="Path to dossier YAML")
     p_gate.set_defaults(func=cmd_gate)
@@ -402,7 +401,10 @@ Examples:
     p_replay.set_defaults(func=cmd_replay)
 
     args = parser.parse_args()
-    args.func(args)
+    try:
+        args.func(args)
+    except ValueError as exc:
+        parser.error(str(exc))
 
 
 if __name__ == "__main__":

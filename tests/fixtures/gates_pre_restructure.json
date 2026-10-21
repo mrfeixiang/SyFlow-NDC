@@ -1,0 +1,118 @@
+{
+  "G0": {
+    "name": "Target and Patient Selection",
+    "required_evidence": [
+      "defined_patient_subset",
+      "membrane_protein_confirmation",
+      "tumor_protein_expression",
+      "normal_tissue_assessment"
+    ],
+    "hold_triggers": [
+      "tumor_protein_data_missing",
+      "normal_tissue_protein_data_missing"
+    ],
+    "nogo_triggers": [
+      "therapeutic_window_implausible",
+      "no_membrane_accessibility"
+    ],
+    "agent": "target_patient"
+  },
+  "G1": {
+    "name": "VHH Binding and Selectivity",
+    "required_evidence": [
+      "live_cell_binding_positive_cells",
+      "live_cell_binding_negative_cells",
+      "counter_binding_specificity",
+      "developability_assessment"
+    ],
+    "hold_triggers": [
+      "recombinant_binding_only",
+      "developability_incomplete"
+    ],
+    "nogo_triggers": [
+      "selectivity_lost_on_wt_cells",
+      "no_reproducible_binding"
+    ],
+    "agent": "nanobody_epitope"
+  },
+  "G2": {
+    "name": "Internalization and Trafficking",
+    "required_evidence": [
+      "quantified_internalization",
+      "trafficking_compartment",
+      "antigen_density_dependence",
+      "uptake_time_course"
+    ],
+    "hold_triggers": [
+      "binding_established_but_uptake_unknown"
+    ],
+    "nogo_triggers": [
+      "no_internalization",
+      "wrong_trafficking_compartment"
+    ],
+    "agent": "delivery"
+  },
+  "G3": {
+    "name": "Conjugate Identity and Stability",
+    "required_evidence": [
+      "site_specific_conjugation_confirmed",
+      "measured_dar",
+      "intact_mass",
+      "free_payload_below_threshold",
+      "aggregation_below_threshold",
+      "serum_stability",
+      "lot_to_lot_identity"
+    ],
+    "hold_triggers": [
+      "single_batch_only",
+      "stability_data_incomplete"
+    ],
+    "nogo_triggers": [
+      "unstable_product",
+      "poorly_defined_product",
+      "high_free_payload"
+    ],
+    "agent": "conjugation_payload"
+  },
+  "G4": {
+    "name": "Antigen-Dependent Killing",
+    "required_evidence": [
+      "target_positive_cytotoxicity",
+      "unconjugated_vhh_control",
+      "nonbinding_ndc_control",
+      "free_payload_control",
+      "target_negative_control",
+      "reference_adc_comparison"
+    ],
+    "hold_triggers": [
+      "reference_adc_unavailable",
+      "single_cell_line_only"
+    ],
+    "nogo_triggers": [
+      "killing_tracks_free_payload",
+      "killing_in_target_negative_cells",
+      "no_advantage_over_free_payload"
+    ],
+    "agent": "conjugation_payload"
+  },
+  "G5": {
+    "name": "Exposure and Therapeutic Window",
+    "required_evidence": [
+      "tumor_exposure",
+      "organ_exposure_especially_kidney",
+      "free_payload_exposure",
+      "species_relevance",
+      "pk_pd_relationship",
+      "dose_tolerability"
+    ],
+    "hold_triggers": [
+      "exposure_window_not_yet_demonstrated"
+    ],
+    "nogo_triggers": [
+      "persistent_exposure_linked_liability",
+      "no_therapeutic_window",
+      "unacceptable_kidney_toxicity"
+    ],
+    "agent": "translation_safety"
+  }
+}
