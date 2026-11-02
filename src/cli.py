@@ -400,6 +400,10 @@ Examples:
     p_replay.add_argument("--run-id", required=True, help="Run ID to replay")
     p_replay.set_defaults(func=cmd_replay)
 
+    from src.smi.cli import register_commands
+
+    register_commands(subparsers)
+
     args = parser.parse_args()
     try:
         args.func(args)

@@ -54,6 +54,7 @@ A parallel template with per-criterion notes lives in `src/config/gates.yaml`. T
 - Session audit that writes `audit.json` and a run summary (`src/utils/session_audit.py`).
 - Provenance MCP skeleton at `src/mcp_servers/provenance_mcp/server.py`. `python scripts/setup_mcp.py` writes `mcp_config.json`. The server module documents itself as a simplified stdio skeleton.
 - Per-target dossiers under `targets/`, plus a target registry in `src/config/targets.yaml` loaded by the CLI. Supported `--target` choices are: `pnpla3`, `rhoa`, `tak1`, `egfrviii`.
+- A separate small-molecule inhibitor module in `src/smi/` with gates M0–M5. It does not change the NDC gate table. The only registered SMI target is `pnpla3`.
 
 ## Quickstart
 
@@ -87,6 +88,27 @@ python scripts/setup_mcp.py
 python scripts/smoke_check.py
 ```
 
+Small-molecule inhibitor plans use the same run directory and the same `verify` command. `validate` and `gate` still only initialize a pending plan.
+
+```bash
+python -m src.smi validate --target pnpla3
+syflow smi validate --target pnpla3
+syflow smi gate --target pnpla3 --gate M0 --dossier targets/pnpla3/smi_dossier.yaml
+```
+
+| Gate | Question | Agent |
+|---|---|---|
+| M0 | Is the protein a credible inhibitor target in a defined population? | `target_biology` |
+| M1 | Is the chemical matter an identified batch? | `ligand_chemistry` |
+| M2 | Are biochemical potency and selectivity measured? | `pharmacology` |
+| M3 | Is cellular engagement separable from cytotoxicity? | `pharmacology` |
+| M4 | Can exposure meet a pre-registered free concentration? | `adme_exposure` |
+| M5 | Is there a therapeutic window? | `safety_translation` |
+
+The decision unit is indication × protein target × compound × assay batch. Runtime rules are `src/smi/schemas/gate.py`. `src/smi/config/gates.yaml` is a reference copy and is not loaded by the CLI. No universal numeric cutoff is stored. A model score cannot close a gate.
+
+`targets/pnpla3/smi_dossier.yaml` copies the localization statement and two SMILES strings from the NDC dossier. It has no `compound` mapping and no assay results, so the plan reviews chemical matter only after target biology. Protein-level expression fields are null, and the dossier records M0 and M1 as `not_assessed`.
+
 `validate` and `gate` write under `SYFLOW_RUNS_DIR` (default `<workspace>/runs`, gitignored) using ids `YYYYMMDD_<target>_NNN`. `verify` reloads that directory, re-hashes the manifest, and reconstructs provenance. `replay` exits after printing that it is not implemented.
 
 `scripts/evaluate_egfr_vhh.py` reads design tables from the hard-coded directory `/home/syslab/Desktop/AIDD SYStem` and writes `proteinbase_submission/`. Those design inputs are not in this repository. The committed report `proteinbase_submission/evaluation_report.txt` records 49 candidates loaded (20 PPI-Flow EGFR WT, 19 OpenDDE/rfantibody EGFRvIII, 10 ForceFlowAb/IgLM EGFRvIII) and 20 sequences kept by the 90% identity filter in `select_diverse_top20`.
@@ -105,7 +127,7 @@ Classifications below are taken from `src/config/targets.yaml` and each dossier.
 | EGFRvIII | GBM, NSCLC, head and neck SCC | Yes (`is_surface_protein: true`) | Direct NDC; stage `binder_discovery`; pilot in the target registry | `egfrviii` |
 | TAK1 / MAP3K7 | Inflammatory cancers, AML, pancreatic cancer, KRAS-mutant tumors | No (cytoplasmic kinase) | Indirect: surface receptor plus a TAK1-inhibitor payload. G0 expectation: hold | `tak1` |
 | RhoA | Solid tumors with RhoA pathway activation (diffuse gastric, T-cell lymphoma) | No | Indirect via a surface receptor (EphA2, CXCR4, or integrin αvβ3). G0 expectation: hold | `rhoa` |
-| PNPLA3 | NASH / MAFLD | No (lipid-droplet protein) | Dossier modality is `small_molecule`. G0 expectation: `no_go_for_ndc` | `pnpla3` |
+| PNPLA3 | NASH / MAFLD | No (lipid-droplet protein) | Dossier modality is `small_molecule`. G0 expectation: `no_go_for_ndc`. Inhibitor follow-up is the separate M0–M5 dossier, not an NDC Go. | `pnpla3` |
 
 `targets/tnfa/` and `targets/nk2r/` contain additional dossiers. They are not CLI `--target` choices.
 
@@ -119,6 +141,7 @@ Classifications below are taken from `src/config/targets.yaml` and each dossier.
 │   ├── schemas/               # dossier, evidence, gates
 │   ├── utils/                 # trace, manifest, provenance, plan, audit, claims
 │   ├── config/                # gates.yaml (reference), targets.yaml (CLI registry)
+│   ├── smi/                   # small-molecule inhibitor gates, agents, and CLI
 │   └── mcp_servers/           # provenance MCP skeleton
 ├── scripts/
 │   ├── setup_mcp.py
@@ -177,6 +200,10 @@ Released under the [MIT License](LICENSE). Copyright (c) 2026 Syang Pei.
 triggers and additional evidence-type annotations. Those annotations are not enforced.
 Do not switch sources without a separate scientific policy review.
 
+`src/smi/schemas/gate.py:SMI_GATE_DEFINITIONS` is the runtime source for `syflow smi`.
+`src/smi/config/gates.yaml` repeats those criterion IDs for reading and is not loaded.
+M-gates do not alter NDC `GATE_DEFINITIONS`.
+
 The workspace is `SYFLOW_PROJECT_ROOT` when set, otherwise the source checkout for editable
 installs, otherwise the current working directory for wheel installs. `SYFLOW_RUNS_DIR`
 overrides the writable run location for both CLI and MCP. Dossiers are external inputs,
@@ -194,5 +221,6 @@ reconstructs records; it does not validate scientific claims or authorize a Go d
 `replay`, model dispatch, automatic gate evaluation and runtime tool sandbox enforcement
 are not implemented. Agent tool lists and workspace instructions are configuration only.
 
-MIT licensing, copyright holder, package renaming, gate-source unification and additional
-specialist/modality architecture remain owner decisions before merge.
+MIT licensing, copyright holder, package renaming, and NDC gate-source unification
+remain owner decisions. The small-molecule module is an additional policy table;
+it does not by itself authorize a Go for PNPLA3 or any other target.

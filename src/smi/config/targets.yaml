@@ -1,0 +1,12 @@
+# Small-molecule inhibitor target registry.
+# Only targets with an SMI dossier are CLI choices.
+# The NDC registry in src/config/targets.yaml is a separate list.
+
+targets:
+  pnpla3:
+    gene_symbol: PNPLA3
+    full_name: "Patatin-like phospholipase domain-containing 3"
+    dossier: "targets/pnpla3/smi_dossier.yaml"
+    indication: "NASH/MAFLD"
+    modality: small_molecule_inhibitor
+    priority: reference

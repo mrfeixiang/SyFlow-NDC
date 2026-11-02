@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Syang Pei" }]
-keywords = ["nanobody", "drug-conjugate", "target-validation", "provenance"]
+keywords = ["nanobody", "drug-conjugate", "small-molecule", "target-validation", "provenance"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
@@ -54,7 +54,12 @@ where = ["."]
 include = ["src*"]
 
 [tool.setuptools.package-data]
-src = ["agents/*/system_prompt.md", "config/*.yaml"]
+src = [
+    "agents/*/system_prompt.md",
+    "config/*.yaml",
+    "smi/agents/*/system_prompt.md",
+    "smi/config/*.yaml",
+]
 
 [tool.ruff]
 target-version = "py311"
@@ -67,6 +72,7 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/cli.py" = ["E402"]
+"src/smi/cli.py" = ["E402"]
 "src/mcp_servers/provenance_mcp/server.py" = ["E402"]
 "scripts/create_workflow_ppt.py" = ["E402"]
 "scripts/smoke_check.py" = ["E402"]

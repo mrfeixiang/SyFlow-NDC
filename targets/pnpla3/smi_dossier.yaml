@@ -1,0 +1,65 @@
+# PNPLA3 small-molecule inhibitor dossier
+# Decision unit: indication × protein target × compound × assay batch.
+# This file records target biology already stated in the NDC dossier and two
+# stored SMILES strings. It does not claim potency, selectivity, exposure,
+# safety, or a gate verdict. There is no `compound` mapping, so the CLI
+# treats chemistry as a landscape review rather than a batch assessment.
+
+dossier_id: SYFLOW-PNPLA3-SMI-001
+modality: small_molecule_inhibitor
+stage: target_identification
+version: "1.0"
+
+target_profile:
+  gene_symbol: PNPLA3
+  uniprot_id: Q9NST1
+  protein_name: "Patatin-like phospholipase domain-containing protein 3"
+  indication: "NASH / MAFLD"
+  patient_subset: "PNPLA3 I148M homozygous carriers with hepatic steatosis"
+  localization: "Lipid-droplet membrane in hepatocytes and hepatic stellate cells; not a plasma-membrane protein"
+  known_variants:
+    - "I148M (rs738409) — loss of lipase activity, major NASH risk variant"
+    - "E434K — protective variant"
+  protein_expression_disease: null
+  normal_tissue_expression: null
+  key_biology: |
+    The NDC dossier states that PNPLA3 localizes to lipid droplets and that
+    the I148M variant accumulates there because it resists ubiquitin-mediated
+    degradation. That localization is why the NDC G0 expectation is
+    no_go_for_ndc. It is not a potency result for an inhibitor.
+
+recorded_structures:
+  note: >
+    Structures copied from targets/pnpla3/dossier.yaml
+    existing_syflow_data.reference_compounds. No assay result, batch ID,
+    or activity is attached.
+  compounds:
+    - id: pfizer_recorded
+      smiles: "C[C@@H]1CCN([C@H]2CN(C(=O)Oc3ccc(Cl)cc3)CC(F)(F)C2)S1(=O)=O"
+      source: "targets/pnpla3/dossier.yaml#existing_syflow_data.reference_compounds.pfizer"
+    - id: nuv_recorded
+      smiles: "Cc1cccc(Cc2nc(C)c(C(=O)Nc3cc(O)ccc3Cl)s2)c1"
+      source: "targets/pnpla3/dossier.yaml#existing_syflow_data.reference_compounds.nuv"
+
+related_records:
+  ndc_dossier: "targets/pnpla3/dossier.yaml"
+  docking_path_recorded_in_ndc_dossier: "../Nesso-1/nesso_pnpla3/"
+  candidate_table_recorded_in_ndc_dossier: "/home/syslab/Desktop/De novo drug design/PNPLA3/DMTA_loop/results/pnpla3_top10_candidates.csv"
+
+competitive_landscape:
+  - name: "ARO-PNPLA3 (Arrowhead)"
+    modality: "GalNAc-siRNA"
+    stage: "Phase 1"
+    mechanism: "mRNA knockdown via ASGPR-mediated liver delivery"
+  - name: "AZD2693 (AstraZeneca)"
+    modality: "ASO"
+    stage: "Phase 2b"
+    mechanism: "Antisense oligonucleotide targeting PNPLA3 mRNA"
+
+gate_expectations:
+  M0:
+    status: not_assessed
+    note: "Protein-level disease and normal-tissue measurements are not in this dossier, so M0 cannot be a Go."
+  M1:
+    status: not_assessed
+    note: "Recorded SMILES strings are not a confirmed assay batch."
