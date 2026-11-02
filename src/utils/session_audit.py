@@ -19,9 +19,10 @@ from .trace_logger import TraceLogger
 class SessionAudit:
     """Manages the audit lifecycle for a single SyFlow run."""
 
-    def __init__(self, run_dir: str | Path, run_id: str):
+    def __init__(self, run_dir: str | Path, run_id: str, platform: str = "syflow_ndc"):
         self.run_dir = Path(run_dir)
         self.run_id = run_id
+        self.platform = platform
         self.trace = TraceLogger(run_dir)
         self.manifest = RunManifest.create(run_dir)
         self.plan = PlanRunner(run_dir)
@@ -38,7 +39,7 @@ class SessionAudit:
             "run_id": self.run_id,
             "start_time": self.start_time,
             "status": self.status,
-            "platform": "syflow_ndc",
+            "platform": self.platform,
             "version": "1.0",
         }
         with open(self.run_dir / "run_metadata.json", "w") as f:

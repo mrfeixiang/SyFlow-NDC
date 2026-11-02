@@ -104,6 +104,18 @@ def check_cli() -> None:
             raise SystemExit("validate did not initialize a run")
     print("python -m src validate (temp runs dir) ok")
 
+    smi_help = subprocess.run(
+        [sys.executable, "-m", "src.smi", "--help"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if smi_help.returncode != 0 or "validate" not in smi_help.stdout:
+        sys.stderr.write(smi_help.stdout + smi_help.stderr)
+        raise SystemExit("python -m src.smi --help failed")
+    print("python -m src.smi --help ok")
+
 
 def main() -> None:
     check_imports()

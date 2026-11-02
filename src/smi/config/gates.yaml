@@ -1,0 +1,109 @@
+# REFERENCE ONLY: not loaded by the CLI. Runtime rules: src/smi/schemas/gate.py.
+# Thresholds are frozen per experiment. This file does not set numeric cutoffs.
+# A model score cannot satisfy a criterion that asks for a measured assay.
+
+gates:
+  M0:
+    name: "Target and Patient Biology"
+    agent: target_biology
+    required_evidence:
+      - id: defined_patient_subset
+        description: "Indication and biomarker-defined population for an inhibitor"
+      - id: protein_level_disease_relevance
+        description: "Protein-level evidence in disease tissue. RNA is supporting only."
+      - id: functional_or_genetic_support
+        description: "Functional or human-genetic support that the protein modulates the indication"
+      - id: on_target_safety_biology
+        description: "Protein-level normal-tissue expression and on-target liability hypothesis"
+    hold_triggers:
+      - disease_protein_data_missing
+      - normal_tissue_protein_data_missing
+    nogo_triggers:
+      - therapeutic_window_implausible
+      - no_protein_in_disease_tissue
+
+  M1:
+    name: "Chemical Matter Identity"
+    agent: ligand_chemistry
+    required_evidence:
+      - id: confirmed_structure
+        description: "Structure confirmed for the batch under review"
+      - id: batch_identity
+        description: "ELN or LIMS identity for the batch"
+      - id: purity_or_composition
+        description: "Measured purity or composition for that batch"
+      - id: chemical_stability_flag
+        description: "Measured stability flag, or an explicit statement that it is missing"
+    hold_triggers:
+      - prediction_or_docking_only
+      - single_unconfirmed_batch
+    nogo_triggers:
+      - identity_not_established
+      - unstable_or_uncontrolled_composition
+
+  M2:
+    name: "Biochemical Potency and Selectivity"
+    agent: pharmacology
+    required_evidence:
+      - id: orthogonal_biochemical_potency
+        description: "Potency in two assay formats, or one assay plus an orthogonal biophysical readout"
+      - id: declared_selectivity_panel
+        description: "Selectivity panel declared before the experiment"
+      - id: inhibition_mode
+        description: "Mode of inhibition when a mechanism claim is made"
+    hold_triggers:
+      - single_assay_format
+      - docking_pose_only
+    nogo_triggers:
+      - no_reproducible_activity
+      - selectivity_lost_on_safety_homolog
+
+  M3:
+    name: "Cellular Target Engagement"
+    agent: pharmacology
+    required_evidence:
+      - id: cellular_target_engagement
+        description: "Cellular engagement or a pathway biomarker tied to the intended protein"
+      - id: inactive_analog_or_orthogonal_compound
+        description: "Inactive analog or a second chemotype"
+      - id: cell_health_control
+        description: "Cell-health readout so cytotoxicity is not mistaken for engagement"
+    hold_triggers:
+      - biochemical_activity_only
+    nogo_triggers:
+      - signal_tracks_nonspecific_cytotoxicity
+      - no_engagement_below_preregistered_cytotoxicity
+
+  M4:
+    name: "ADME and Exposure"
+    agent: adme_exposure
+    required_evidence:
+      - id: measured_solubility
+        description: "Measured solubility for the batch"
+      - id: measured_permeability
+        description: "Measured permeability"
+      - id: measured_metabolic_stability
+        description: "Measured metabolic stability"
+      - id: exposure_versus_cellular_potency
+        description: "Comparison of unbound exposure with the pre-registered cellular concentration"
+    hold_triggers:
+      - in_vitro_adme_only
+      - predicted_adme_only
+    nogo_triggers:
+      - exposure_cannot_reach_preregistered_free_concentration
+
+  M5:
+    name: "Safety and Therapeutic Window"
+    agent: safety_translation
+    required_evidence:
+      - id: preregistered_safety_panel
+        description: "Safety panel whose membership was frozen before the experiment"
+      - id: on_target_liability
+        description: "Assessment of liability caused by inhibiting the intended protein"
+      - id: dose_tolerability
+        description: "Tolerability at the exposure used for the efficacy comparison, when in vivo data are in scope"
+    hold_triggers:
+      - therapeutic_window_not_measured
+    nogo_triggers:
+      - no_therapeutic_window
+      - liability_inseparable_from_mechanism

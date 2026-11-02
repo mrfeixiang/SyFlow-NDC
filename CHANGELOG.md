@@ -9,6 +9,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
+- Small-molecule inhibitor module (`src/smi/`): M0–M5 gates, seven agents, and `syflow smi` / `python -m src.smi`. The reference dossier is `targets/pnpla3/smi_dossier.yaml`. NDC G0–G5 rules are unchanged.
 - `pyproject.toml` with the `syflow` console script, dependencies aligned with `environment.yml`, and Ruff settings.
 - MIT `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md`, and this changelog.
 - GitHub Actions workflow that runs Ruff and `scripts/smoke_check.py`.

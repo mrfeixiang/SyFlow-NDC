@@ -10,13 +10,14 @@ The unit of work is one **NDC candidate dossier**:
 ## Architecture
 - **5 domain specialist agents** + 1 CSO orchestrator + 1 scientific reviewer (7 total; G3/G4 share conjugation_payload)
 - **6 gates** (G0-G5) with Go/Hold/No-Go decisions
+- **Small-molecule inhibitor module** (`src/smi/`): separate M0–M5 gates and agents. It does not change G0–G5. Reference dossier: `targets/pnpla3/smi_dossier.yaml`.
 - **Provenance-first**: every claim must cite verifiable evidence
 - **Evidence types**: prediction, literature_evidence, retrospective_analysis, syflow_wetlab, independent_replication
 
 ## Active Targets
 | Target | Indication | Modality | Status |
 |--------|-----------|----------|--------|
-| PNPLA3 | NASH/MAFLD | Small molecule (existing SyFlow data) | Reference |
+| PNPLA3 | NASH/MAFLD | Small molecule (NDC dossier plus `targets/pnpla3/smi_dossier.yaml`) | Reference |
 | RhoA | Solid tumors | VHH binder (LigandMPNN designs exist) | Reference |
 | TAK1/MAP3K7 | Inflammation/Cancer | NDC candidate | Active |
 | EGFRvIII | GBM/Solid tumors | NDC (mutant-selective VHH) | Pilot |
@@ -43,9 +44,13 @@ python -m src verify --run-id <RUN_ID>
 
 # Replay a run (stochastic comparison)
 python -m src replay --run-id <RUN_ID>
+
+# Small-molecule inhibitor module (M0–M5; does not change NDC gates)
+python -m src.smi validate --target pnpla3
+syflow smi gate --target pnpla3 --gate M0 --dossier targets/pnpla3/smi_dossier.yaml
 ```
 
-After `pip install -e .`, the same commands are available as `syflow validate|gate|verify|replay`.
+After `pip install -e .`, the same commands are available as `syflow validate|gate|verify|replay` and `syflow smi validate|gate`.
 Helper scripts live in `scripts/` (`setup_mcp.py`, `evaluate_egfr_vhh.py`, slide builders).
 Slide decks live in `docs/slides/`.
 
